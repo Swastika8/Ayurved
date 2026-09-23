@@ -363,19 +363,85 @@ function BookAppointmentPage() {
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-12">
+        {/* 3D Consultation Sanctuary Desk Stage */}
+        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-card via-secondary/30 to-primary/5 border border-border p-6 sm:p-10 lg:p-12 shadow-soft">
+          <div className="grid lg:grid-cols-12 gap-8 items-center">
+            {/* Content Column (7 cols) */}
+            <div className="lg:col-span-7 space-y-4 text-left">
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="leaf-pill px-3.5 py-1 text-xs text-primary border-primary/20">
+                  <Sparkles className="size-3 mr-1 text-accent" />
+                  Vaidya OPD & Telehealth Scheduling
+                </Badge>
+                <Badge className="bg-primary/10 text-primary border-primary/20 rounded-full text-xs">
+                  Direct Lineage Vaidyas
+                </Badge>
+              </div>
+
+              <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-tight text-foreground leading-[1.15]">
+                Schedule an <span className="italic text-primary font-normal">Ayurvedic Consultation</span>
+              </h1>
+
+              <p className="font-serif italic text-base sm:text-lg text-primary/80">
+                “Rogamadau Pareeksheta Tato-anantaram Aushadham.”
+              </p>
+              <p className="text-xs text-muted-foreground italic">
+                — Charaka Samhita: First thoroughly examine the patient and disease; only then prescribe the medicine.
+              </p>
+
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Whether you visit our hospital sanctuary in person for traditional eight-fold diagnosis (*Ashtavidha Pariksha*) or connect from abroad via high-definition Telehealth, every treatment is customized to your unique Dosha constitution.
+              </p>
+
+              <div className="flex flex-wrap gap-4 text-xs pt-1">
+                <span className="flex items-center gap-1.5 text-foreground/80 font-medium">
+                  <CheckCircle2 className="size-4 text-primary" /> Comprehensive Pulse Reading
+                </span>
+                <span className="flex items-center gap-1.5 text-foreground/80 font-medium">
+                  <CheckCircle2 className="size-4 text-accent" /> Customized Herbal Rx
+                </span>
+                <span className="flex items-center gap-1.5 text-foreground/80 font-medium">
+                  <CheckCircle2 className="size-4 text-primary" /> Instant Slot Receipt
+                </span>
+              </div>
+            </div>
+
+            {/* 3D Visual Asset Column (5 cols) */}
+            <div className="lg:col-span-5 relative flex items-center justify-center">
+              <div className="relative w-full max-w-sm aspect-square rounded-[2rem] border border-primary/20 bg-secondary/30 overflow-hidden shadow-lift group">
+                <img
+                  src="/media/appointment.jpg"
+                  alt="3D Ayurvedic Consultation Desk"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* HTML/CSS Badges over visual layer */}
+                <div className="absolute top-3.5 left-3.5 bg-card/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground flex items-center gap-1.5 shadow-sm">
+                  <Sparkles className="size-3 text-accent" />
+                  <span>3D Consultation Desk</span>
+                </div>
+
+                <div className="absolute bottom-3.5 inset-x-3.5 bg-card/95 backdrop-blur-md p-3 rounded-2xl border border-primary/20 shadow-md">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-muted-foreground uppercase font-mono block">Clinical Intake</span>
+                      <span className="text-xs font-bold text-foreground">Ashtavidha Pulse Analysis</span>
+                    </div>
+                    <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px]">
+                      Verified Slot
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Wizard Progress Header */}
-        <div className="mb-10 text-center max-w-2xl mx-auto space-y-3">
-          <Badge variant="outline" className="leaf-pill px-4 py-1 text-xs text-primary border-primary/20">
-            <Sparkles className="size-3 mr-1 text-accent" />
-            Vaidya OPD & Telehealth Scheduling
-          </Badge>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold text-foreground">
-            Schedule an <span className="italic text-primary font-normal">Ayurvedic Consultation</span>
-          </h1>
-          <p className="text-sm sm:text-base text-muted-foreground">
-            Select a specialized Vaidya, pick an available consultation slot, and receive instant digital confirmation.
-          </p>
+        <div className="text-center max-w-2xl mx-auto space-y-3">
 
           {/* Stepper pills */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs">

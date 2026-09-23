@@ -168,31 +168,98 @@ export function WellnessPage() {
 
   return (
     <PageShell>
-      {/* Hero Header with Organic Leaf Framing */}
-      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/10 via-secondary/40 to-background border border-border/80 px-6 py-16 sm:px-12 sm:py-24 text-center">
-        <div className="mx-auto max-w-3xl space-y-4">
-          <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-4 py-1 text-xs">
-            <Sparkles className="size-3.5 text-accent mr-1.5" /> Timeless Ayurvedic Lifestyle Principles
-          </Badge>
-          <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-foreground text-balance-display">
-            The Living Rhythm of Holistic Wellness
-          </h1>
-          <p className="font-serif italic text-lg sm:text-xl text-primary/80">
-            “When diet is wrong, medicine is of no use. When diet is correct, medicine is of no need.”
-          </p>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-            In classical Ayurveda, health is not simply the absence of symptoms, but an exquisite state of dynamic equilibrium between body (*Doshas*), metabolism (*Agni*), mind (*Manas*), and seasonal nature.
-          </p>
+      {/* 3D Sanctuary Living Hero Stage */}
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-card via-secondary/30 to-primary/5 border border-border p-6 sm:p-10 lg:p-14 shadow-soft">
+        <div className="grid lg:grid-cols-12 gap-10 items-center">
+          {/* Asymmetrical Typography & Content Column (7 cols) */}
+          <div className="lg:col-span-7 space-y-5 text-left">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-3.5 py-1 text-xs">
+                <Sparkles className="size-3.5 text-accent mr-1.5" /> Timeless Ayurvedic Lifestyle Principles
+              </Badge>
+              <Badge className="bg-primary/10 text-primary border-primary/20 rounded-full text-xs">
+                Dinacharya & Ritucharya
+              </Badge>
+            </div>
 
-          <div className="pt-4 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" className="rounded-full px-7 shadow-lift gap-2">
-              <Link to="/book">
-                <Calendar className="size-4" /> Book a Wellness Consultation
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="rounded-full px-7">
-              <Link to="/contact">Explore Inpatient Stays</Link>
-            </Button>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance-display leading-[1.15]">
+              The Living Rhythm of <span className="italic text-primary font-normal">Holistic Wellness</span>
+            </h1>
+
+            <p className="font-serif italic text-lg sm:text-xl text-primary/85">
+              “When diet is wrong, medicine is of no use. <br className="hidden sm:inline" />
+              When diet is correct, medicine is of no need.”
+            </p>
+            <p className="text-xs font-sans text-muted-foreground italic">
+              — Classical Ayurvedic Proverb: Health is an active harmony of body (Sharira), senses (Indriya), mind (Sattva), and spirit (Atma).
+            </p>
+
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+              In classical Ayurveda, wellness is not an intermittent detox or punitive diet. It is an exquisite daily synchronization between your inner metabolic fire (*Agni*) and the natural solar-circadian clock (*Brahma Muhurta* through *Nidra*).
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2">
+                <Link to="/book">
+                  <Calendar className="size-4" /> Book a Lifestyle Assessment
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-6">
+                <Link to="/contact">Explore Inpatient Stays</Link>
+              </Button>
+            </div>
+
+            {/* Micro Feature Indicators */}
+            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border/70 max-w-md">
+              <div>
+                <span className="font-display text-lg font-bold text-foreground block">6 Rasas</span>
+                <span className="text-[11px] text-muted-foreground">Every Meal Complete</span>
+              </div>
+              <div>
+                <span className="font-display text-lg font-bold text-primary block">Circadian</span>
+                <span className="text-[11px] text-muted-foreground">Solar Agni Timing</span>
+              </div>
+              <div>
+                <span className="font-display text-lg font-bold text-accent block">5 Ritus</span>
+                <span className="text-[11px] text-muted-foreground">Seasonal Transitions</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 3D Visual Asset Column (5 cols) */}
+          <div className="lg:col-span-5 relative flex items-center justify-center">
+            {/* Ambient Background Aura */}
+            <div className="absolute inset-0 -m-6 bg-gradient-to-tr from-accent/15 via-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative w-full max-w-md mx-auto aspect-square rounded-[2.5rem] bg-gradient-to-b from-card/80 to-secondary/40 border border-primary/20 p-3 shadow-lift overflow-hidden group">
+              <div className="relative w-full h-full rounded-[2rem] overflow-hidden">
+                <img
+                  src="/media/wellness-scene.jpg"
+                  alt="3D Ayurvedic Sanctuary Living Scene"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* Floating HTML/CSS Badges over negative space */}
+                <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground flex items-center gap-1.5 shadow-sm">
+                  <Sparkles className="size-3 text-accent" />
+                  <span>Sanctuary Architecture</span>
+                </div>
+
+                <div className="absolute bottom-4 inset-x-4 bg-card/95 backdrop-blur-md p-3.5 rounded-2xl border border-primary/20 shadow-md">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-muted-foreground uppercase font-mono block">Living Environment</span>
+                      <span className="text-xs font-bold text-foreground">Natural Wood, Jali & Herbal Vapour</span>
+                    </div>
+                    <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px]">
+                      Sattvic
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

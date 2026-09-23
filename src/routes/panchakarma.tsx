@@ -4,6 +4,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Panchakarma3DStage } from "@/components/ayurveda/Panchakarma3DStage";
 import {
   Sparkles,
   Droplets,
@@ -321,8 +322,13 @@ export function PanchakarmaPage() {
         </div>
       </section>
 
+      {/* Living 3D Animated Therapy Stage */}
+      <section className="mt-20">
+        <Panchakarma3DStage />
+      </section>
+
       {/* Master Interactive 5 Therapies Explorer */}
-      <section className="mt-20 space-y-10">
+      <section className="mt-24 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <Badge variant="outline" className="border-primary/30 text-primary text-xs">
             Interactive Deep Dive

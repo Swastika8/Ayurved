@@ -218,3 +218,147 @@
   );
   height: 1px;
 }
+
+/* 3D Therapy Micro-Animations */
+@keyframes nasya-drop {
+  0% {
+    transform: translateY(-8px) scale(0.85);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(0px) scale(1.05);
+    opacity: 1;
+  }
+  65% {
+    transform: translateY(28px) scale(0.9, 1.25);
+    opacity: 0.95;
+  }
+  85% {
+    transform: translateY(38px) scale(1.3, 0.4);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(42px) scale(1.8, 0.1);
+    opacity: 0;
+  }
+}
+
+@keyframes oil-ripple {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.4);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes steam-rise-1 {
+  0% {
+    transform: translateY(0) scaleX(1) translateX(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateY(-24px) scaleX(1.25) translateX(4px);
+    opacity: 0.55;
+  }
+  75% {
+    transform: translateY(-46px) scaleX(0.85) translateX(-5px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-68px) scaleX(1.4) translateX(2px);
+    opacity: 0;
+  }
+}
+
+@keyframes steam-rise-2 {
+  0% {
+    transform: translateY(0) scaleX(1) translateX(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(-20px) scaleX(0.9) translateX(-4px);
+    opacity: 0.45;
+  }
+  75% {
+    transform: translateY(-42px) scaleX(1.2) translateX(3px);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translateY(-62px) scaleX(1.5) translateX(-2px);
+    opacity: 0;
+  }
+}
+
+@keyframes prana-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.85;
+  }
+}
+
+@keyframes liquid-swirl {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes levitate {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.8deg);
+  }
+}
+
+.animate-nasya-drop {
+  animation: nasya-drop 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.animate-oil-ripple {
+  animation: oil-ripple 2.6s ease-out infinite;
+}
+
+.animate-steam-1 {
+  animation: steam-rise-1 3.4s ease-out infinite;
+}
+
+.animate-steam-2 {
+  animation: steam-rise-2 4.1s ease-out 0.8s infinite;
+}
+
+.animate-prana-pulse {
+  animation: prana-pulse 3s ease-in-out infinite;
+}
+
+.animate-liquid-swirl {
+  animation: liquid-swirl 8s linear infinite;
+}
+
+.animate-levitate {
+  animation: levitate 6s ease-in-out infinite;
+}
+

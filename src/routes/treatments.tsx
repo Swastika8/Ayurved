@@ -245,26 +245,93 @@ export function TreatmentsPage() {
 
   return (
     <PageShell>
-      {/* Treatments Hero Header */}
-      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/10 via-secondary/40 to-background border border-border px-6 py-14 sm:px-12 sm:py-20 text-center">
-        <div className="mx-auto max-w-3xl space-y-4">
-          <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-4 py-1 text-xs">
-            <Sparkles className="size-3.5 text-accent mr-1.5" /> Classical Hospital Chikitsa
-          </Badge>
-          <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-foreground text-balance-display">
-            Classical Ayurvedic Therapies
-          </h1>
-          <p className="font-serif italic text-lg sm:text-xl text-primary/80">
-            Categorized by Constitutional Doshas: Vata, Pitta, and Kapha
-          </p>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-xl mx-auto">
-            Ayurveda never treats a disease in isolation; we harmonize the underlying energetic disequilibrium. Browse our hospital therapies by their primary dosha focus.
-          </p>
+      {/* 3D Levitating Apothecary Hero Stage */}
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-card via-secondary/30 to-primary/5 border border-border p-6 sm:p-12 lg:p-14 shadow-soft">
+        <div className="grid lg:grid-cols-12 gap-10 items-center">
+          {/* Asymmetrical Content Column (7 cols) */}
+          <div className="lg:col-span-7 space-y-5 text-left">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-3.5 py-1 text-xs">
+                <Sparkles className="size-3.5 text-accent mr-1.5" /> Authentic Shirodhara & Droni Chikitsa
+              </Badge>
+              <Badge className="bg-accent/15 text-accent-foreground border-accent/20 rounded-full text-xs">
+                Lineage Formulations
+              </Badge>
+            </div>
+
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance-display leading-[1.15]">
+              Classical Ayurvedic <span className="italic text-primary font-normal">Therapies</span> & Droni Rituals
+            </h1>
+
+            <p className="font-serif italic text-lg sm:text-xl text-primary/85">
+              “Yatha Ksheeram Samasthepi Dehe Vyapi Pravartate, <br className="hidden sm:inline" />
+              Tatha Tailam Guneh Srotamsyanupravishati.”
+            </p>
+            <p className="text-xs font-sans text-muted-foreground italic">
+              — Just as pure essence permeates every cell, medicated warm oils permeate the micro-channels (Srotas) of the human body.
+            </p>
+
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+              Ayurveda never treats an isolated symptom. Every oil formulation, massage velocity, and thermal steam bath is calibrated strictly to your constitutional Dosha imbalance — Vata, Pitta, or Kapha.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift">
+                <Link to="/book">Consult a Vaidya for Prescription</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-6">
+                <a href="#dosha-catalog">Browse Dosha Catalog</a>
+              </Button>
+            </div>
+
+            {/* Micro Feature Indicators */}
+            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border/70 max-w-md">
+              <div>
+                <span className="font-display text-lg font-bold text-foreground block">100%</span>
+                <span className="text-[11px] text-muted-foreground">Wild-Harvested Herbs</span>
+              </div>
+              <div>
+                <span className="font-display text-lg font-bold text-primary block">Single-Wood</span>
+                <span className="text-[11px] text-muted-foreground">Teak Droni Beds</span>
+              </div>
+              <div>
+                <span className="font-display text-lg font-bold text-accent block">Kerala</span>
+                <span className="text-[11px] text-muted-foreground">Tandem Therapists</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 3D Levitating Asset Column (5 cols) */}
+          <div className="lg:col-span-5 relative flex items-center justify-center">
+            {/* Ambient Background Aura */}
+            <div className="absolute inset-0 -m-6 bg-gradient-to-tr from-accent/10 via-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative w-full max-w-md mx-auto aspect-square rounded-[2.5rem] bg-gradient-to-b from-card/80 to-secondary/40 border border-primary/20 p-6 flex flex-col items-center justify-center shadow-lift overflow-hidden group">
+              {/* Floating 3D Artwork Layer */}
+              <div className="relative w-full h-full flex items-center justify-center">
+                <img
+                  src="/media/treatments.png"
+                  alt="3D Levitating Ayurvedic Vessels and Herbs"
+                  className="w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(26,60,44,0.18)] animate-levitate transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+
+              {/* Floating HTML/CSS Badges over negative space */}
+              <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground flex items-center gap-1.5 shadow-sm">
+                <Sparkles className="size-3 text-accent" />
+                <span>3D Apothecary Layer</span>
+              </div>
+
+              <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-primary/20 text-[11px] font-semibold text-primary flex items-center gap-1.5 shadow-sm">
+                <span>Hand-Crafted Bronze & Teak</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Interactive Dosha Filter Tabs */}
-      <section className="mt-12 space-y-8">
+      <section id="dosha-catalog" className="mt-16 space-y-8 scroll-mt-24">
         <div className="flex flex-wrap items-center justify-center gap-2">
           {(["All", "Vata", "Pitta", "Kapha", "Tridosha"] as const).map((dosha) => {
             const count = dosha === "All" ? CLASSICAL_TREATMENTS.length : CLASSICAL_TREATMENTS.filter((t) => t.dosha === dosha).length;

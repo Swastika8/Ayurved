@@ -182,65 +182,91 @@ export function BlogPage() {
         </div>
       </section>
 
-      {/* Featured Editorial Story (Hero Feature) */}
+      {/* Featured Editorial Story: 3D Manuscript Stage */}
       {featuredStory && !searchQuery && selectedCategory === "All" && (
         <section className="mt-14">
           <div
             onClick={() => setActiveArticle(featuredStory)}
-            className="group cursor-pointer rounded-[2.5rem] border border-border bg-card p-6 sm:p-10 shadow-soft hover:shadow-lift transition-all hover:border-primary/40 relative overflow-hidden grid lg:grid-cols-12 gap-8 items-center"
+            className="group cursor-pointer rounded-[2.5rem] border border-border bg-card p-6 sm:p-10 lg:p-12 shadow-soft hover:shadow-lift transition-all hover:border-primary/40 relative overflow-hidden grid lg:grid-cols-12 gap-10 items-center"
           >
+            {/* Editorial Content (7 cols) */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Badge className="bg-primary/10 text-primary border-primary/20 text-xs">
                   {featuredStory.category}
                 </Badge>
                 <span className="text-xs text-muted-foreground flex items-center gap-1">
-                  <Clock className="size-3" /> {featuredStory.readTime}
+                  <Clock className="size-3 text-accent" /> {featuredStory.readTime}
                 </span>
                 <span className="text-xs text-muted-foreground">• {featuredStory.date}</span>
+                <Badge variant="outline" className="border-accent/40 text-accent font-medium text-[10px]">
+                  Classical Monograph
+                </Badge>
               </div>
 
-              <h2 className="font-display text-2xl sm:text-4xl font-bold text-foreground group-hover:text-primary transition-colors leading-tight">
+              <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl font-bold text-foreground group-hover:text-primary transition-colors leading-[1.2]">
                 {featuredStory.title}
               </h2>
+
+              <p className="font-serif italic text-base text-primary/80">
+                “Hemante Shishire Chaiva Kaphah Sanchayamacharet, Vasantarkamshubhirbhinno Hanti Kayagnimagatah.”
+              </p>
 
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {featuredStory.snippet}
               </p>
 
-              <div className="flex items-center justify-between pt-2">
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <span className="text-xs font-semibold text-foreground/80">Key Botanical Formulations:</span>
+                {featuredStory.keyHerbs?.map((herb) => (
+                  <span
+                    key={herb}
+                    className="text-[11px] bg-secondary/80 text-foreground px-3 py-1 rounded-full border border-border font-medium"
+                  >
+                    {herb}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-border/70">
                 <div className="flex items-center gap-2 text-xs font-medium text-foreground">
                   <UserCheck className="size-4 text-accent" />
                   <span>{featuredStory.author}</span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform">
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:translate-x-1.5 transition-transform">
                   Read Full Publication <ArrowRight className="size-4" />
                 </span>
               </div>
             </div>
 
-            <div className="lg:col-span-5 rounded-[2rem] border border-primary/20 bg-gradient-to-tr from-primary/10 via-secondary/60 to-primary/5 p-8 flex flex-col justify-center items-center text-center aspect-[4/3] relative overflow-hidden">
-              <img
-                src="/media/blog-animation.jpg"
-                alt="Ayurvedic Clinical Monograph"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/30 pointer-events-none" />
+            {/* 3D Visual Layer: The Open Study Manuscript (5 cols) */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative rounded-[2rem] border border-primary/25 overflow-hidden shadow-lift aspect-[4/3] bg-secondary/30 group">
+                <img
+                  src="/media/blog-animation.jpg"
+                  alt="3D Ayurvedic Physician Study Desk and Open Manuscript"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                
+                {/* Organic Warm Lighting Gradient (does not obscure the asset) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
 
-              <div className="relative z-10 flex flex-col items-center">
-                <Sparkles className="size-8 text-accent mb-2 animate-pulse" />
-                <span className="font-display text-lg font-semibold text-white drop-shadow-sm">
-                  Classical Ritucharya Monograph
-                </span>
-                <p className="text-xs text-white/80 mt-1 max-w-xs drop-shadow-xs">
-                  Clinical guidance on spring Kapha regulation, dietary transitions, and digestive fire rejuvenation.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-1.5 justify-center">
-                  {featuredStory.keyHerbs?.map((herb) => (
-                    <span key={herb} className="text-[10px] bg-background/80 backdrop-blur-md text-foreground px-2.5 py-0.5 rounded-full border border-white/20 font-medium">
-                      {herb}
-                    </span>
-                  ))}
+                {/* HTML/CSS Badges layered over the visual */}
+                <div className="absolute top-3.5 left-3.5 bg-card/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground flex items-center gap-1.5 shadow-sm">
+                  <BookOpen className="size-3 text-primary" />
+                  <span>Vaidya Study Desk</span>
+                </div>
+
+                <div className="absolute bottom-3.5 inset-x-3.5 bg-card/95 backdrop-blur-md p-3 rounded-2xl border border-primary/20 shadow-md">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] text-muted-foreground uppercase font-mono block">Archived Folio</span>
+                      <span className="text-xs font-bold text-foreground">Ritucharya Manuscript Vol. IV</span>
+                    </div>
+                    <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px]">
+                      Peer-Reviewed
+                    </Badge>
+                  </div>
                 </div>
               </div>
             </div>
