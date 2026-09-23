@@ -41,7 +41,7 @@ interface Message {
   showBookingCta?: boolean;
 }
 
-const AYURVEDA_KNOWLEDGE: Record<string, string> = {
+const AYURVEDA_KNOWLEDGE = {
   panchakarma: `**Panchakarma (पञ्चकर्म)** is classical Ayurveda's primary five-fold bio-purification process designed to eliminate deep-seated metabolic toxins (*Ama*) and restore doshic equilibrium.
 
 ### The Five Therapies:

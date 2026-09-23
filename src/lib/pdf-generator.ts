@@ -2,17 +2,17 @@ import jsPDF from "jspdf";
 
 export interface PrescriptionPdfData {
   patientName: string;
-  patientEmail?: string;
+  patientEmail?: string | undefined;
   doctorName: string;
-  doctorSpeciality?: string;
-  doctorQualifications?: string;
+  doctorSpeciality?: string | undefined;
+  doctorQualifications?: string | undefined;
   visitDate: string;
-  diagnosis?: string;
-  doshaAssessment?: string;
-  notes?: string;
-  prescription?: string;
-  therapyPlan?: string;
-  followUpDate?: string;
+  diagnosis?: string | undefined;
+  doshaAssessment?: string | undefined;
+  notes?: string | undefined;
+  prescription?: string | undefined;
+  therapyPlan?: string | undefined;
+  followUpDate?: string | undefined;
 }
 
 export interface ReceiptPdfData {
@@ -22,8 +22,8 @@ export interface ReceiptPdfData {
   appointmentDate: string;
   amount: number;
   paidAt: string;
-  paymentMethod?: string;
-  providerReference?: string;
+  paymentMethod?: string | undefined;
+  providerReference?: string | undefined;
 }
 
 export function generatePrescriptionPdf(data: PrescriptionPdfData) {
@@ -112,7 +112,7 @@ export function generatePrescriptionPdf(data: PrescriptionPdfData) {
   y += 30;
 
   // Clinical Details Section Helper
-  const printSection = (title: string, text?: string, badgeColor = [31, 61, 43]) => {
+  const printSection = (title: string, text?: string, badgeColor: [number, number, number] = [31, 61, 43]) => {
     if (!text || !text.trim()) return;
 
     // Section Header
@@ -239,7 +239,7 @@ export function generateReceiptPdf(data: ReceiptPdfData) {
   y += 22;
 
   // Table of particulars
-  const rows = [
+  const rows: [string, string][] = [
     ["Patient Name", data.patientName],
     ["Consulting Physician", data.doctorName],
     ["Appointment Date", data.appointmentDate],

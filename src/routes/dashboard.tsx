@@ -418,12 +418,12 @@ function PatientDashboardPage() {
                         </div>
                       )}
 
-                      {c.therapyPlan && (
+                      {c.therapy_plan && (
                         <div>
                           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                             Therapy / Panchakarma Plan:
                           </span>
-                          <p className="mt-0.5 text-xs text-foreground">{c.therapyPlan}</p>
+                          <p className="mt-0.5 text-xs text-foreground">{c.therapy_plan}</p>
                         </div>
                       )}
 
@@ -495,7 +495,7 @@ function PatientDashboardPage() {
                             receiptNumber: p.receipt_number || "RCP-ONLINE",
                             patientName: profile?.full_name || user.email || "Patient",
                             doctorName: p.appointments?.doctors?.full_name || "Aarogya Hospital",
-                            appointmentDate: p.appointments?.appointment_date || new Date().toISOString().split("T")[0],
+                            appointmentDate: p.appointments?.appointment_date || new Date().toISOString().split("T")[0] || "",
                             amount: Number(p.amount),
                             paidAt: new Date(p.created_at).toLocaleDateString("en-IN"),
                             paymentMethod: p.provider || "Online Gateway",

@@ -31,8 +31,8 @@ import {
   useTreatments,
   useDiseases,
   type Doctor,
-  type AppRole,
 } from "@/lib/queries";
+import type { AppRole } from "@/hooks/useAuth";
 import { PageShell } from "@/components/site/PageShell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";

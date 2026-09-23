@@ -109,7 +109,7 @@ function DoctorPortalPage() {
 
     const inTwoWeeks = new Date();
     inTwoWeeks.setDate(inTwoWeeks.getDate() + 14);
-    setFollowUpDate(inTwoWeeks.toISOString().split("T")[0]);
+    setFollowUpDate(inTwoWeeks.toISOString().split("T")[0] || "");
   };
 
   const handleSaveConsultation = async () => {

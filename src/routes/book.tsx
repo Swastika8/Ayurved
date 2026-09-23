@@ -47,8 +47,12 @@ type Step = "doctor" | "slot" | "details" | "payment" | "confirmed";
 
 function generateSlotsForRange(startTimeStr: string, endTimeStr: string, intervalMinutes = 30) {
   const slots: string[] = [];
-  const [startH, startM] = startTimeStr.split(":").map(Number);
-  const [endH, endM] = endTimeStr.split(":").map(Number);
+  const startParts = startTimeStr.split(":").map(Number);
+  const endParts = endTimeStr.split(":").map(Number);
+  const startH = startParts[0] ?? 0;
+  const startM = startParts[1] ?? 0;
+  const endH = endParts[0] ?? 0;
+  const endM = endParts[1] ?? 0;
 
   let currentMin = startH * 60 + startM;
   const endTotalMin = endH * 60 + endM;
