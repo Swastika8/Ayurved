@@ -34,6 +34,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
+import { DOCTORS_ROSTER } from "@/data/doctors";
+
 export const Route = createFileRoute("/book")({
   head: () => ({
     meta: [
@@ -55,60 +57,19 @@ export const Route = createFileRoute("/book")({
 
 type Step = "doctor" | "slot" | "details" | "payment" | "confirmed";
 
-const FALLBACK_DOCTORS: Doctor[] = [
-  {
-    id: "f1111111-1111-1111-1111-111111111111",
-    user_id: null,
-    full_name: "Dr. K. S. Namboodiri, BAMS, MD (Ayu)",
-    speciality: "Chief Vaidya & Nadi Pariksha Specialist",
-    qualifications: "BAMS, MD (Ayurveda), Senior Pulse Diagnostician",
-    years_experience: 28,
-    consultation_fee: 1200,
-    bio: "Lineage pulse diagnostician with over 28 years of clinical practice restoring Tridosha equilibrium, chronic metabolic harmony, and digestive health.",
-    is_active: true,
-    photo_url: null,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "f2222222-2222-2222-2222-222222222222",
-    user_id: null,
-    full_name: "Dr. Ananya Varma, BAMS",
-    speciality: "Classical Panchakarma & Stree Roga (Women's Health)",
-    qualifications: "BAMS, Fellow in Classical Shodhana (Kerala)",
-    years_experience: 16,
-    consultation_fee: 950,
-    bio: "Specializing in gentle classical detoxification, hormonal rebalancing, post-partum restoration, and autoimmune skin equilibrium.",
-    is_active: true,
-    photo_url: null,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "f3333333-3333-3333-3333-333333333333",
-    user_id: null,
-    full_name: "Dr. Madhavan Kutty, BAMS",
-    speciality: "Spine, Joint & Marma Therapy (Asthi-Sandhi)",
-    qualifications: "BAMS, Traditional Kalari Marma Expert",
-    years_experience: 22,
-    consultation_fee: 1000,
-    bio: "Pioneer in non-surgical chronic spine relief, sciatica alleviation, cervical spondylosis, and classical Janu Basti treatment protocols.",
-    is_active: true,
-    photo_url: null,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "f4444444-4444-4444-4444-444444444444",
-    user_id: null,
-    full_name: "Dr. Rajeshwar Iyer, BAMS, Ph.D.",
-    speciality: "Classical Rasashastra & Herbology Research",
-    qualifications: "BAMS, Ph.D. in Ayurvedic Pharmacology",
-    years_experience: 19,
-    consultation_fee: 850,
-    bio: "Leading specialist in botanical immuno-modulators (Rasayanas), autoimmune skin conditions (Kushta Roga), and preventative pediatric immunity.",
-    is_active: true,
-    photo_url: null,
-    created_at: new Date().toISOString(),
-  },
-];
+const FALLBACK_DOCTORS: Doctor[] = DOCTORS_ROSTER.map((d, index) => ({
+  id: `doctor-${index + 1}`,
+  user_id: null,
+  full_name: d.name,
+  speciality: d.speciality,
+  qualifications: d.qualifications,
+  years_experience: d.yearsExperience,
+  consultation_fee: d.consultationFee,
+  bio: d.bio,
+  is_active: true,
+  photo_url: d.image,
+  created_at: new Date().toISOString(),
+}));
 
 function generateSlotsForRange(startTimeStr: string, endTimeStr: string, intervalMinutes = 30) {
   const slots: string[] = [];
@@ -363,82 +324,72 @@ function BookAppointmentPage() {
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-10 md:py-14 space-y-12">
-        {/* 3D Consultation Sanctuary Desk Stage */}
-        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-card via-secondary/30 to-primary/5 border border-border p-6 sm:p-10 lg:p-12 shadow-soft">
-          <div className="grid lg:grid-cols-12 gap-8 items-center">
-            {/* Content Column (7 cols) */}
-            <div className="lg:col-span-7 space-y-4 text-left">
+      <div className="space-y-12">
+        {/* Full Environmental Consultation Sanctuary Backdrop */}
+        <section className="relative -mt-6 sm:-mt-10 -mx-4 sm:-mx-8 lg:-mx-12 overflow-hidden min-h-[60vh] lg:min-h-[68vh] flex items-center justify-start border-b border-border/70">
+          {/* Full Environmental 3D Asset */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/media/appointment.jpg"
+              alt="Ayurvedic Physician Consultation Desk and Palm Leaf Diagnostic Suite"
+              className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.92] contrast-[1.05]"
+            />
+            {/* Subtle Warm Vignette Gradients */}
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+          </div>
+
+          {/* Ambient Botanical Glows */}
+          <div className="absolute top-1/4 left-10 w-[500px] h-[500px] rounded-full bg-accent/15 blur-[140px] pointer-events-none z-0" />
+          <div className="absolute bottom-10 left-1/3 w-[450px] h-[450px] rounded-full bg-primary/15 blur-[130px] pointer-events-none z-0" />
+
+          {/* Hero Content Floating Over Environment */}
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 w-full">
+            <div className="max-w-2xl space-y-6">
               <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="leaf-pill px-3.5 py-1 text-xs text-primary border-primary/20">
-                  <Sparkles className="size-3 mr-1 text-accent" />
-                  Vaidya OPD & Telehealth Scheduling
+                <Badge
+                  variant="outline"
+                  className="rounded-full border-primary/40 bg-background/80 backdrop-blur-md text-primary px-3.5 py-1 text-xs"
+                >
+                  <Sparkles className="size-3 text-accent mr-1.5" /> Vaidya OPD & Telehealth Scheduling
                 </Badge>
-                <Badge className="bg-primary/10 text-primary border-primary/20 rounded-full text-xs">
+                <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
                   Direct Lineage Vaidyas
                 </Badge>
               </div>
 
-              <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-tight text-foreground leading-[1.15]">
-                Schedule an <span className="italic text-primary font-normal">Ayurvedic Consultation</span>
+              <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-foreground leading-[1.08]">
+                Schedule an <br />
+                <span className="italic text-primary font-serif">Ayurvedic Consultation</span>
               </h1>
 
-              <p className="font-serif italic text-base sm:text-lg text-primary/80">
+              <p className="font-serif italic text-base sm:text-xl text-primary/90 leading-snug">
                 “Rogamadau Pareeksheta Tato-anantaram Aushadham.”
               </p>
               <p className="text-xs text-muted-foreground italic">
                 — Charaka Samhita: First thoroughly examine the patient and disease; only then prescribe the medicine.
               </p>
 
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 Whether you visit our hospital sanctuary in person for traditional eight-fold diagnosis (*Ashtavidha Pariksha*) or connect from abroad via high-definition Telehealth, every treatment is customized to your unique Dosha constitution.
               </p>
 
               <div className="flex flex-wrap gap-4 text-xs pt-1">
-                <span className="flex items-center gap-1.5 text-foreground/80 font-medium">
+                <span className="flex items-center gap-1.5 text-foreground/90 font-medium bg-background/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60">
                   <CheckCircle2 className="size-4 text-primary" /> Comprehensive Pulse Reading
                 </span>
-                <span className="flex items-center gap-1.5 text-foreground/80 font-medium">
+                <span className="flex items-center gap-1.5 text-foreground/90 font-medium bg-background/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60">
                   <CheckCircle2 className="size-4 text-accent" /> Customized Herbal Rx
                 </span>
-                <span className="flex items-center gap-1.5 text-foreground/80 font-medium">
+                <span className="flex items-center gap-1.5 text-foreground/90 font-medium bg-background/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60">
                   <CheckCircle2 className="size-4 text-primary" /> Instant Slot Receipt
                 </span>
               </div>
             </div>
-
-            {/* 3D Visual Asset Column (5 cols) */}
-            <div className="lg:col-span-5 relative flex items-center justify-center">
-              <div className="relative w-full max-w-sm aspect-square rounded-[2rem] border border-primary/20 bg-secondary/30 overflow-hidden shadow-lift group">
-                <img
-                  src="/media/appointment.jpg"
-                  alt="3D Ayurvedic Consultation Desk"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-                {/* HTML/CSS Badges over visual layer */}
-                <div className="absolute top-3.5 left-3.5 bg-card/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground flex items-center gap-1.5 shadow-sm">
-                  <Sparkles className="size-3 text-accent" />
-                  <span>3D Consultation Desk</span>
-                </div>
-
-                <div className="absolute bottom-3.5 inset-x-3.5 bg-card/95 backdrop-blur-md p-3 rounded-2xl border border-primary/20 shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-muted-foreground uppercase font-mono block">Clinical Intake</span>
-                      <span className="text-xs font-bold text-foreground">Ashtavidha Pulse Analysis</span>
-                    </div>
-                    <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px]">
-                      Verified Slot
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
+
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-12">
 
         {/* Wizard Progress Header */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
@@ -981,6 +932,7 @@ function BookAppointmentPage() {
             </div>
           </div>
         )}
+      </div>
       </div>
     </PageShell>
   );

@@ -13,16 +13,18 @@ import {
   CheckCircle2,
   Clock,
   Award,
-  Video,
 } from "lucide-react";
 import { PageShell } from "@/components/site/PageShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSiteContent } from "@/hooks/useSiteContent";
-import { useDoctors, useTreatments } from "@/lib/queries";
 import { SymptomDiseaseLookup } from "@/components/ayurveda/SymptomDiseaseLookup";
-import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
-import heroImage from "@/assets/hero-ayurveda.jpg";
+import { CinematicIntro } from "@/components/ayurveda/CinematicIntro";
+import { HOSPITAL_DATA } from "@/data/hospital";
+import { CLASSICAL_TREATMENTS } from "@/data/treatments";
+import { PANCHAKARMA_THERAPIES } from "@/data/panchakarma";
+import { DOCTORS_ROSTER } from "@/data/doctors";
+import { useDoctors, useTreatments } from "@/lib/queries";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,9 +46,21 @@ export const Route = createFileRoute("/")({
 });
 
 export function HomePage() {
-  const { hospital, announcement } = useSiteContent();
+  const { announcement } = useSiteContent();
   const { data: treatments } = useTreatments();
   const { data: doctors } = useDoctors();
+
+  const displayTreatments = treatments?.length ? treatments.slice(0, 6) : CLASSICAL_TREATMENTS.slice(0, 6);
+  const displayDoctors = doctors?.length ? doctors : DOCTORS_ROSTER.map((doc) => ({
+    id: doc.id,
+    full_name: doc.name,
+    speciality: doc.speciality,
+    qualifications: doc.qualifications,
+    years_experience: doc.yearsExperience,
+    consultation_fee: doc.consultationFee,
+    bio: doc.bio,
+    is_active: true,
+  }));
 
   const clinicalHighlights = [
     {
@@ -68,6 +82,9 @@ export function HomePage() {
 
   return (
     <PageShell>
+      {/* Cinematic Full-Screen Video Entrance on first session visit */}
+      <CinematicIntro />
+
       {/* Top hospital announcement if enabled */}
       {announcement?.active && (
         <div className="bg-primary/10 border-b border-primary/20 py-2.5 px-4 text-center text-xs text-primary font-medium">
@@ -77,102 +94,72 @@ export function HomePage() {
         </div>
       )}
 
-      {/* HERO SECTION WITH ORGANIC CURVATURE & UPFRONT SYMPTOM LOOKUP */}
-      <section className="relative overflow-hidden pt-6 pb-16 lg:py-20">
-        {/* Ambient background glows */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 size-[600px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
-        <div className="absolute -top-10 right-10 size-80 rounded-full bg-accent/5 blur-2xl pointer-events-none" />
+      {/* IMMERSIVE ENVIRONMENTAL HERO SECTION (NO CONTAINED IMAGE CARDS) */}
+      <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden pt-8 pb-20">
+        {/* Full-width 3D atmospheric environmental video layer extending across the right & behind content */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <video
+            src="/media/home.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 right-0 w-full lg:w-[65%] h-full object-cover object-center opacity-85 filter contrast-[1.05]"
+          />
+          {/* Organic atmospheric gradient blending the video seamlessly into warm ivory/cream background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 lg:via-background/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+          <div className="absolute top-1/4 left-1/3 size-96 rounded-full bg-accent/10 blur-3xl" />
+        </div>
 
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid gap-12 lg:grid-cols-12 items-center">
-            {/* Left Hero Narrative */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-secondary/60 px-4 py-1.5 text-xs text-primary font-medium">
-                <Leaf className="size-3.5 text-accent" />
-                <span>Ashtanga Hridaya Lineage • Kerala & Rishikesh Sanctuaries</span>
-              </div>
-
-              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08] text-balance-display">
-                Root-Cause Healing, <br className="hidden sm:inline" />
-                <span className="font-serif italic font-normal text-primary">
-                  Sacred Vedic Precision.
-                </span>
-              </h1>
-
-              <p className="font-serif italic text-lg sm:text-xl text-primary/80 max-w-xl">
-                “Swasthyasya Swasthya Rakshanam, Aturasya Vikara Prashamanam Ch”
-                <span className="block text-xs font-sans not-italic text-muted-foreground mt-1">
-                  Preserve the health of the healthy, and completely cure the ailments of the afflicted.
-                </span>
-              </p>
-
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
-                Experience authentic Ayurvedic hospital care: authentic Panchakarma bio-purification, in-house herbal formulations prepared in bronze urulis, and zero-paper digital case records.
-              </p>
-
-              {/* Upfront Interactive Symptom & Disease Lookup Bar */}
-              <div className="pt-2 max-w-xl">
-                <span className="text-xs font-semibold text-primary uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                  <Sparkles className="size-3.5 text-accent" /> Instant Symptom & Ayurvedic Protocol Search:
-                </span>
-                <SymptomDiseaseLookup />
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-3 flex flex-wrap items-center gap-4">
-                <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2 bg-primary hover:bg-primary/90">
-                  <Link to="/book">
-                    <Calendar className="size-4 text-accent" /> Book a Consultation
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-primary/30">
-                  <Link to="/panchakarma">Explore Panchakarma Therapies</Link>
-                </Button>
-              </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full py-12 lg:py-16">
+          <div className="max-w-2xl lg:max-w-3xl space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-secondary/80 backdrop-blur-md px-4 py-1.5 text-xs text-primary font-medium shadow-xs">
+              <Leaf className="size-3.5 text-accent" />
+              <span>{HOSPITAL_DATA.tradition} • Kerala & Rishikesh</span>
             </div>
 
-            {/* Right Hero Visual Stage with Organic Leaf Mask */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                {/* Organic decorative backdrop ring */}
-                <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-tr from-accent/20 via-primary/10 to-transparent blur-xl pointer-events-none" />
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.06] text-balance-display">
+              Root-Cause Healing, <br />
+              <span className="font-serif italic font-normal text-primary">
+                Sacred Vedic Precision.
+              </span>
+            </h1>
 
-                <div className="relative overflow-hidden rounded-[2.5rem] border-2 border-border/80 bg-card shadow-lift">
-                  <video
-                    src="/media/home.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    poster={heroImage}
-                    className="w-full h-auto object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-700"
-                  />
-                  {/* Floating Trust Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-card/90 backdrop-blur-md p-4 border border-border/80 shadow-soft flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="grid size-10 place-items-center rounded-xl bg-primary text-primary-foreground">
-                        <Award className="size-5" />
-                      </span>
-                      <div>
-                        <p className="font-display text-sm font-bold text-foreground">
-                          NABH Green Hospital Certified
-                        </p>
-                        <p className="text-[11px] text-muted-foreground">
-                          Ashtanga Ayurveda Standard
-                        </p>
-                      </div>
-                    </div>
-                    <Badge variant="secondary" className="text-[10px] bg-accent/20 text-accent-foreground font-semibold">
-                      100% Paperless
-                    </Badge>
-                  </div>
-                </div>
-              </div>
+            <p className="font-serif italic text-lg sm:text-2xl text-primary/90 max-w-xl leading-relaxed">
+              “Swasthyasya Swasthya Rakshanam, Aturasya Vikara Prashamanam Ch”
+              <span className="block text-xs font-sans not-italic text-muted-foreground mt-1.5">
+                Preserve the vitality of the healthy, and eradicate the roots of disease in the afflicted.
+              </span>
+            </p>
+
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+              Experience classical hospital healthcare: authentic 5-phase Panchakarma bio-purification, in-house pharmacopoeia prepared in bronze urulis, and zero-paper digital case records.
+            </p>
+
+            {/* Upfront Interactive Symptom & Disease Lookup Bar */}
+            <div className="pt-2 max-w-xl">
+              <span className="text-xs font-semibold text-primary uppercase tracking-wider block mb-2 flex items-center gap-1.5">
+                <Sparkles className="size-3.5 text-accent" /> Instant Symptom & Ayurvedic Protocol Search:
+              </span>
+              <SymptomDiseaseLookup />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="pt-3 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2 bg-primary hover:bg-primary/90">
+                <Link to="/book">
+                  <Calendar className="size-4 text-accent" /> Book a Consultation
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-primary/30 bg-background/60 backdrop-blur-sm hover:bg-background">
+                <Link to="/panchakarma">Explore Panchakarma Therapies</Link>
+              </Button>
             </div>
           </div>
 
           {/* Floating Organic Quick-Stats Ribbon */}
-          <div className="mt-16 leaf-card bg-gradient-to-r from-card via-secondary/40 to-card p-6 sm:p-8 border-primary/20">
+          <div className="mt-20 leaf-card bg-card/85 backdrop-blur-md p-6 sm:p-8 border-primary/20 shadow-lift">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-border">
               <div className="space-y-1">
                 <p className="font-display text-3xl sm:text-4xl font-bold text-primary">40+ Years</p>
@@ -183,19 +170,19 @@ export function HomePage() {
               <div className="space-y-1 pt-4 md:pt-0">
                 <p className="font-display text-3xl sm:text-4xl font-bold text-primary">50,000+</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                  Patients Successfully Healed
+                  Patients Restored
                 </p>
               </div>
               <div className="space-y-1 pt-4 md:pt-0">
                 <p className="font-display text-3xl sm:text-4xl font-bold text-accent">100% Pure</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                  In-House GMP Formulations
+                  In-House GMP Pharmacy
                 </p>
               </div>
               <div className="space-y-1 pt-4 md:pt-0">
                 <p className="font-display text-3xl sm:text-4xl font-bold text-foreground">18 Vaidyas</p>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
-                  Resident Senior Physicians
+                  Resident Specialists
                 </p>
               </div>
             </div>
@@ -204,7 +191,7 @@ export function HomePage() {
       </section>
 
       {/* THREE PILLARS OF OUR CARE (CLINICAL HIGHLIGHTS) */}
-      <section className="py-12 border-t border-border/60">
+      <section className="py-16 border-t border-border/60 bg-secondary/30">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid gap-6 md:grid-cols-3">
             {clinicalHighlights.map((item, idx) => {
@@ -212,7 +199,7 @@ export function HomePage() {
               return (
                 <div
                   key={idx}
-                  className="leaf-card p-7 space-y-3 hover:border-primary/50 hover:shadow-soft transition-all group"
+                  className="leaf-card p-7 space-y-3 hover:border-primary/50 hover:shadow-soft transition-all group bg-card"
                 >
                   <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors shadow-xs">
                     <Icon className="size-6" />
@@ -230,55 +217,60 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* PANCHAKARMA 3D / VIDEO SHOWCASE STAGE */}
-      <section className="py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid gap-10 lg:grid-cols-12 items-center">
-            <div className="lg:col-span-5 space-y-4">
-              <Badge className="bg-primary/10 text-primary border-primary/20 text-xs">
-                Master Bio-Purification
-              </Badge>
-              <h2 className="font-display text-3xl sm:text-5xl font-bold text-foreground leading-tight">
-                Panchakarma: The Five Classical Detox Therapies
-              </h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Panchakarma is not a mere massage; it is an intensive 3-phase cellular purification (*Purvakarma, Pradhanakarma, and Paschatkarma*) designed to dislodge deeply rooted endotoxins from tissues and expel them through physiological channels.
-              </p>
+      {/* PANCHAKARMA ATMOSPHERIC SHOWCASE (LARGE 3D VISUAL BACKDROP LAYER, NO SMALL CARD) */}
+      <section className="relative overflow-hidden py-24 bg-card border-y border-border">
+        {/* Large 3D Mandala Environment Layer extending across the entire section */}
+        <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply">
+          <img
+            src="/media/panchakarma-main.jpg"
+            alt="Panchakarma 3D Mandala Environment"
+            className="w-full h-full object-cover object-right-top filter saturate-[0.85]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-card via-card/90 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-card" />
+        </div>
 
-              <div className="space-y-2 pt-2 text-xs text-foreground/80">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-primary" />
-                  <span><strong>Vamana</strong> — Therapeutic emesis for Kapha lung & stomach disorders</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-primary" />
-                  <span><strong>Virechana</strong> — Master purgation for Pitta liver & blood purification</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="size-4 text-primary" />
-                  <span><strong>Basti</strong> — Herbal enema; the master cure for 80+ Vata ailments</span>
-                </div>
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="max-w-2xl space-y-5">
+            <Badge className="bg-primary/15 text-primary border-primary/30 text-xs">
+              Master Bio-Purification
+            </Badge>
+            <h2 className="font-display text-3xl sm:text-5xl font-bold text-foreground leading-tight">
+              Panchakarma: The Five Classical Detox Therapies
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              Panchakarma is not a mere massage; it is an intensive 3-phase cellular purification (*Purvakarma, Pradhanakarma, and Paschatkarma*) designed to dislodge deeply rooted endotoxins from tissues and expel them through physiological channels.
+            </p>
+
+            <div className="space-y-2.5 pt-2 text-xs sm:text-sm text-foreground/90">
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span><strong>Vamana</strong> — Therapeutic emesis for Kapha lung & stomach disorders</span>
               </div>
-
-              <div className="pt-4">
-                <Button asChild className="rounded-full px-6 gap-2">
-                  <Link to="/panchakarma">
-                    Deep Dive Into Panchakarma Protocols <ArrowRight className="size-4" />
-                  </Link>
-                </Button>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span><strong>Virechana</strong> — Master purgation for Pitta liver & blood purification</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span><strong>Basti</strong> — Herbal enema; the master cure for 80+ Vata ailments</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span><strong>Nasya</strong> — Medicated errhine for cranial, sinus, and sensory clarity</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <CheckCircle2 className="size-4 text-primary shrink-0" />
+                <span><strong>Raktamokshana</strong> — Jalauka leech therapy for stubborn blood pathologies</span>
               </div>
             </div>
 
-            {/* Media Placeholder Video Slot */}
-            <div className="lg:col-span-7">
-              <MediaPlaceholder
-                title="Panchakarma 3D Anatomical Visualization"
-                subtitle="Live 3D cinematic sequence detailing Snehana (internal oleation), Swedana (steam dilation), and targeted toxin elimination."
-                badge="3D Animation Active"
-                aspectRatio="16/9"
-                previewUrl="/media/home.mp4"
-                duration="2:45 mins"
-              />
+            <div className="pt-4">
+              <Button asChild size="lg" className="rounded-full px-8 gap-2 shadow-soft">
+                <Link to="/panchakarma">
+                  Deep Dive Into Panchakarma Protocols <ArrowRight className="size-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -307,7 +299,7 @@ export function HomePage() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {(treatments ?? []).slice(0, 6).map((t) => (
+            {displayTreatments.map((t) => (
               <div
                 key={t.id}
                 className="leaf-card p-6 flex flex-col justify-between hover:shadow-lift hover:border-primary/40 transition-all space-y-4"
@@ -363,7 +355,7 @@ export function HomePage() {
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {(doctors ?? []).map((doc) => (
+            {displayDoctors.map((doc) => (
               <div
                 key={doc.id}
                 className="leaf-card-alt p-6 space-y-4 flex flex-col justify-between hover:shadow-lift hover:border-primary/40 transition-all"

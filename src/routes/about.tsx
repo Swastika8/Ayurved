@@ -16,9 +16,10 @@ import {
   TreePine,
   Flame,
   ArrowRight,
+  UserCheck,
 } from "lucide-react";
-import { useDoctors } from "@/lib/queries";
-import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
+import { HOSPITAL_DATA, SANCTUARIES } from "@/data/hospital";
+import { DOCTORS_ROSTER } from "@/data/doctors";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -34,107 +35,138 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
+const TIMELINE_MILESTONES = [
+  {
+    period: "Early 20th Century",
+    title: "The Tapasya of the Vaidyam Lineage",
+    subtitle: "Ashtanga Hridaya Gurukulam Roots",
+    desc: "Founded in the sacred Malabar river valley by royal court physicians (Raja Vaidyas). Medical knowledge was preserved through rigorous Guru-Shishya parampara, memorizing Sanskrit verses and classical preparation methods.",
+  },
+  {
+    period: "1984",
+    title: "Establishment of the Riverside Oushadhi Shala",
+    subtitle: "Preserving Raw Botanicals & Bronze Cauldron Processing",
+    desc: "To counter the industrialization of fake herbal pills, our founders established an authentic, wood-fired bronze Uruli pharmacy to boil classical Kashayams without synthetic preservatives.",
+  },
+  {
+    period: "2008",
+    title: "Himalayan Sanctuary in Rishikesh",
+    subtitle: "Expanding to Pranic Mountain Foothills",
+    desc: "Inaugurated our second sanctuary along the Ganges in Tapovan, Rishikesh, offering high-altitude medicinal flora, pure water springs, and silent meditation retreats.",
+  },
+  {
+    period: "Present Day",
+    title: "NABH Accreditation & 100% Paperless EMR",
+    subtitle: "Classical Authenticity Meets Clinical Precision",
+    desc: "Recognized as a premier NABH-accredited green hospital. Integrating digital pulse telemetry and paperless digital case sheets while fiercely upholding pure Vedic treatments.",
+  },
+];
+
+const ASHTANGA_PILLARS = [
+  { name: "Kaya Chikitsa", trans: "Internal Medicine & Metabolic Care", desc: "Balancing digestive fire (Agni), chronic metabolic disorders, and autoimmune reversal." },
+  { name: "Shalya Tantra", trans: "Ayurvedic Surgery & Marma Science", desc: "Non-invasive management of anorectal disorders, fistula (Ksharasutra), and musculoskeletal pain." },
+  { name: "Shalakya Tantra", trans: "ENT & Ophthalmology", desc: "Netra Tarpana, Nasya, and treatments for vision preservation and cranial health." },
+  { name: "Kaumarabhritya", trans: "Pediatrics & Maternal Health", desc: "Suvarnaprashana gold drops, developmental nourishment, and postnatal care." },
+  { name: "Agada Tantra", trans: "Toxicology & Environmental Purification", desc: "Neutralizing modern environmental pesticides, chemical exposure, and food toxicity." },
+  { name: "Rasayana Tantra", trans: "Geriatrics, Cellular Rejuvenation & Ojas", desc: "Longevity formulations that arrest biological aging and fortify cellular immunity." },
+  { name: "Vajikarana", trans: "Reproductive & Endocrine Vitality", desc: "Hormonal balance, fertility optimization, and vital reproductive vigor." },
+  { name: "Bhuta Vidya", trans: "Psycho-Spiritual & Neuro-psychiatry", desc: "Sattvavajaya psychotherapy, Daivavyapashraya healing, and meditation for mental equanimity." },
+];
+
 export function AboutPage() {
-  const { data: doctors } = useDoctors();
-
-  const timelineMilestones = [
-    {
-      period: "Early 20th Century",
-      title: "The Tapasya of the Vaidyam Lineage",
-      subtitle: "Ashtanga Hridaya Gurukulam Roots",
-      desc: "Founded in the sacred Malabar river valley by royal court physicians (Raja Vaidyas). Medical knowledge was preserved through rigorous Guru-Shishya parampara, memorizing Sanskrit verses and classical preparation methods.",
-    },
-    {
-      period: "1984",
-      title: "Establishment of the Riverside Oushadhi Shala",
-      subtitle: "Preserving Raw Botanicals & Bronze Cauldron Processing",
-      desc: "To counter the industrialization of fake herbal pills, our founders established an authentic, wood-fired bronze Uruli pharmacy to boil classical Kashayams without synthetic preservatives.",
-    },
-    {
-      period: "2008",
-      title: "Himalayan Sanctuary in Rishikesh",
-      subtitle: "Expanding to Pranic Mountain Foothills",
-      desc: "Inaugurated our second sanctuary along the Ganges in Tapovan, Rishikesh, offering high-altitude medicinal flora, pure water springs, and silent meditation retreats.",
-    },
-    {
-      period: "Present Day",
-      title: "NABH Accreditation & 100% Paperless EMR",
-      subtitle: "Classical Authenticity Meets Clinical Precision",
-      desc: "Recognized as a premier NABH-accredited green hospital. Integrating digital pulse telemetry and paperless digital case sheets while fiercely upholding pure Vedic treatments.",
-    },
-  ];
-
-  const ashtangaPillars = [
-    { name: "Kaya Chikitsa", trans: "Internal Medicine & Metabolic Care", desc: "Balancing digestive fire (Agni), chronic metabolic disorders, and autoimmune reversal." },
-    { name: "Shalya Tantra", trans: "Ayurvedic Surgery & Marma Science", desc: "Non-invasive management of anorectal disorders, fistula (Ksharasutra), and musculoskeletal pain." },
-    { name: "Shalakya Tantra", trans: "ENT & Ophthalmology", desc: "Netra Tarpana, Nasya, and treatments for vision preservation and cranial health." },
-    { name: "Kaumarabhritya", trans: "Pediatrics & Maternal Health", desc: "Suvarnaprashana gold drops, developmental nourishment, and postnatal care." },
-    { name: "Agada Tantra", trans: "Toxicology & Environmental Purification", desc: "Neutralizing modern environmental pesticides, chemical exposure, and food toxicity." },
-    { name: "Rasayana Tantra", trans: "Geriatrics, Cellular Rejuvenation & Ojas", desc: "Longevity formulations that arrest biological aging and fortify cellular immunity." },
-    { name: "Vajikarana", trans: "Reproductive & Endocrine Vitality", desc: "Hormonal balance, fertility optimization, and vital reproductive vigor." },
-    { name: "Bhuta Vidya", trans: "Psycho-Spiritual & Neuro-psychiatry", desc: "Sattvavajaya psychotherapy, Daivavyapashraya healing, and meditation for mental equanimity." },
-  ];
-
   return (
     <PageShell>
-      {/* Hero Header */}
-      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/10 via-secondary/40 to-background border border-border px-6 py-14 sm:px-12 sm:py-20 text-center">
-        <div className="mx-auto max-w-3xl space-y-4">
-          <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-4 py-1 text-xs">
-            <BookOpen className="size-3.5 text-accent mr-1.5" /> Our Sacred Lineage & Philosophy
-          </Badge>
-          <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-foreground text-balance-display">
-            A Living Tapestry of Classical Vedic Healing
-          </h1>
-          <p className="font-serif italic text-lg sm:text-xl text-primary/80">
-            Rooted in the Ashtanga Hridaya, Dedicated to Pure Bio-Purification
-          </p>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Aarogya Ayurveda Hospital was founded on a non-negotiable vow: never to dilute classical healing into generic commercial spa therapies. Here, medicine is holy, customized to your pulse, and prepared with devotion.
-          </p>
+      {/* 1. FULL-WIDTH ATMOSPHERIC HERITAGE HERO (No Small Box!) */}
+      <section className="relative -mt-6 sm:-mt-10 -mx-4 sm:-mx-8 lg:-mx-12 overflow-hidden min-h-[75vh] lg:min-h-[82vh] flex items-center justify-start border-b border-border/70">
+        {/* Full Environmental 3D Architectural Asset */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/media/gallery-hospital.jpg"
+            alt="Aarogya Ayurvedic Hospital Sanctuary Architecture"
+            className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.92] contrast-[1.05]"
+          />
+          {/* Subtle Warm Vignette Gradients */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/25 lg:to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+        </div>
+
+        {/* Ambient Botanical Light Wash */}
+        <div className="absolute top-1/4 left-10 w-[500px] h-[500px] rounded-full bg-primary/15 blur-[140px] pointer-events-none z-0" />
+        <div className="absolute bottom-10 left-1/3 w-[450px] h-[450px] rounded-full bg-accent/15 blur-[130px] pointer-events-none z-0" />
+
+        {/* Hero Content Floating Over Heritage Environment */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 w-full">
+          <div className="max-w-2xl space-y-6">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge
+                variant="outline"
+                className="rounded-full border-primary/40 bg-background/80 backdrop-blur-md text-primary px-3.5 py-1 text-xs"
+              >
+                <BookOpen className="size-3.5 text-accent mr-1.5" /> Our Sacred Lineage & Guru-Shishya Parampara
+              </Badge>
+              <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
+                Est. {HOSPITAL_DATA.foundedYear}
+              </Badge>
+            </div>
+
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08]">
+              A Living Tapestry of <br />
+              <span className="italic text-primary font-serif">Classical Vedic Healing</span>
+            </h1>
+
+            <p className="font-serif italic text-lg sm:text-2xl text-primary/90 leading-snug">
+              “Rooted in the Ashtanga Hridaya, dedicated to pure bio-purification and unbroken medical lineage.”
+            </p>
+
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              {HOSPITAL_DATA.mission} Here, medicine is holy, customized to your biological pulse, and prepared with prayer and classical pharmacology.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2">
+                <Link to="/book">
+                  <Calendar className="size-4" /> Book Physician Consultation
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-7 bg-background/70 backdrop-blur-sm border-border">
+                <Link to="/contact">Explore Sanctuaries</Link>
+              </Button>
+            </div>
+
+            {/* Certifications Bar */}
+            <div className="pt-6 border-t border-border/60 flex flex-wrap gap-2">
+              {HOSPITAL_DATA.certifications.map((cert, i) => (
+                <span key={i} className="text-[11px] font-mono bg-background/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/70 text-foreground/90">
+                  ✓ {cert}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Visual Campus & Sanctuary Documentary Stage */}
-      <section className="mt-14">
-        <MediaPlaceholder
-          title="Sanctuary Documentary: The Living Lineage of Aarogya"
-          subtitle="A cinematic journey through our sacred medicinal gardens, single-trunk Droni carving, and morning Vaidya consultations."
-          badge="Heritage Film Active"
-          aspectRatio="21/9"
-          previewUrl="/media/intro.mp4"
-          duration="2:15 mins"
-          details={[
-            "Interviews with chief Vaidyas on Ashtanga Hridaya lineage",
-            "Behind-the-scenes in our wood-fired bronze pharmacy",
-            "Patient healing stories across 3 generations"
-          ]}
-        />
-      </section>
-
-      {/* Interactive Story Timeline: The Heritage Scroll */}
-      <section className="mt-20 space-y-12">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
+      {/* 2. Interactive Story Timeline: Chronicles of Care */}
+      <section className="mt-24 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-3">
           <Badge variant="outline" className="border-primary/30 text-primary text-xs">
             Chronicles of Care
           </Badge>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
-            The Timeline of Our Healing Sanctuary
+          <h2 className="font-display text-3xl sm:text-5xl font-bold text-foreground">
+            The Timeline of Our Sanctuary
           </h2>
           <p className="text-sm text-muted-foreground">
-            Tracing our journey from traditional village Gurukulam to a certified NABH modern hospital.
+            Tracing our journey from traditional riverside Gurukulam to a premier NABH-certified hospital.
           </p>
         </div>
 
         <div className="relative border-l-2 border-primary/30 ml-4 sm:ml-32 space-y-12 py-4">
-          {timelineMilestones.map((item, idx) => (
+          {TIMELINE_MILESTONES.map((item, idx) => (
             <div key={idx} className="relative pl-8 sm:pl-12 group">
-              {/* Timeline marker with pulsing leaf badge */}
               <div className="absolute -left-[17px] top-1.5 size-8 rounded-full bg-card border-2 border-primary flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors shadow-soft">
                 <Leaf className="size-3.5" />
               </div>
 
-              <div className="leaf-card p-6 sm:p-8 space-y-2 border-border/80 group-hover:border-primary/40 transition-all max-w-3xl">
+              <div className="p-8 rounded-[2rem] bg-card border border-border/80 group-hover:border-primary/40 transition-all shadow-soft max-w-3xl space-y-2">
                 <span className="font-mono text-xs text-accent font-semibold uppercase tracking-wider block">
                   {item.period}
                 </span>
@@ -153,121 +185,74 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* The 8 Branches of Classical Ayurveda (Ashtanga Ayurveda) */}
-      <section className="mt-24 rounded-[2.5rem] bg-secondary/30 p-8 sm:p-14 border border-border">
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
+      {/* 3. The 8 Classical Branches (Ashtanga Ayurveda) */}
+      <section className="mt-28 rounded-[3rem] bg-secondary/30 p-8 sm:p-16 border border-border/80 space-y-12">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
           <Badge className="bg-primary/10 text-primary border-primary/20 text-xs">
             Complete Medical System
           </Badge>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
-            The Eight Pillars of Ashtanga Ayurveda
+          <h2 className="font-display text-3xl sm:text-5xl font-bold text-foreground">
+            The Eight Pillars of Ashtanga Hridaya
           </h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Classical Ayurveda is an all-encompassing medical science encompassing surgery, psychiatry, pediatrics, and longevity. Our hospital houses specialized departments across all eight branches.
+          <p className="text-sm text-muted-foreground">
+            Classical Ayurveda is an exhaustive octopartite healthcare science covering every dimension of human biology.
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {ashtangaPillars.map((pillar, idx) => (
-            <div
-              key={idx}
-              className="rounded-2xl border border-border bg-card p-5 space-y-2 hover:border-primary/40 hover:shadow-soft transition-all"
-            >
-              <span className="text-[10px] font-mono text-primary font-bold">0{idx + 1}</span>
-              <h3 className="font-display text-lg font-bold text-foreground">{pillar.name}</h3>
-              <p className="font-serif italic text-xs text-accent font-semibold">{pillar.trans}</p>
-              <p className="text-xs text-muted-foreground leading-relaxed pt-1">{pillar.desc}</p>
+          {ASHTANGA_PILLARS.map((pillar, i) => (
+            <div key={i} className="p-6 rounded-2xl bg-card border border-border/80 shadow-soft space-y-2.5 flex flex-col justify-between">
+              <div>
+                <h3 className="font-display text-lg font-bold text-foreground">
+                  {pillar.name}
+                </h3>
+                <p className="font-serif italic text-xs text-primary font-medium">
+                  {pillar.trans}
+                </p>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {pillar.desc}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Our Certified Physicians & Vaidyas */}
-      <section className="mt-24 space-y-10">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
+      {/* 4. Senior Vaidyas Roster Preview */}
+      <section className="mt-28 space-y-12">
+        <div className="text-center max-w-2xl mx-auto space-y-3">
           <Badge variant="outline" className="border-primary/30 text-primary text-xs">
-            The Healing Council
+            Faculty of Medicine
           </Badge>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
-            Senior Vaidyas & Clinical Directors
+          <h2 className="font-display text-3xl sm:text-5xl font-bold text-foreground">
+            Our Senior Vaidyas & Lineage Masters
           </h2>
           <p className="text-sm text-muted-foreground">
-            Our physicians undergo rigorous classical pulse diagnosis training in addition to accredited university surgical and medical degrees.
+            Direct disciples of traditional Ashtanga lineages blending Vedic diagnostics with modern lab assessments.
           </p>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {(doctors ?? []).map((doc) => (
-            <div
-              key={doc.id}
-              className="leaf-card p-6 flex flex-col justify-between hover:shadow-lift hover:border-primary/40 transition-all space-y-4"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="grid size-12 place-items-center rounded-2xl bg-primary text-primary-foreground font-display font-bold text-lg shadow-soft">
-                    {doc.full_name.charAt(0)}
-                  </div>
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-foreground">{doc.full_name}</h3>
-                    <p className="text-xs text-primary font-medium">{doc.speciality}</p>
-                  </div>
-                </div>
-
-                <div className="rounded-xl bg-secondary/50 p-2.5 text-xs text-muted-foreground border border-border">
-                  <span className="font-semibold text-foreground">Credentials: </span>
-                  {doc.qualifications} • {doc.years_experience} Years Hospital Practice
-                </div>
-
-                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {DOCTORS_ROSTER.map((doc) => (
+            <div key={doc.id} className="p-6 rounded-[2rem] bg-card border border-border/80 shadow-soft space-y-4 flex flex-col justify-between">
+              <div className="space-y-2">
+                <Badge variant="outline" className="text-[10px] border-primary/30 text-primary">
+                  {doc.experience}
+                </Badge>
+                <h3 className="font-display text-xl font-bold text-foreground">
+                  {doc.name}
+                </h3>
+                <p className="text-xs text-primary font-medium">{doc.specialty}</p>
+                <p className="text-[11px] font-mono text-muted-foreground">{doc.qualification}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed pt-1 line-clamp-3">
                   {doc.bio}
                 </p>
               </div>
-
-              <div className="pt-3 border-t border-border flex items-center justify-between">
-                <div>
-                  <span className="text-[10px] text-muted-foreground block">OPD Consultation</span>
-                  <span className="font-bold text-sm text-foreground">₹{Number(doc.consultation_fee).toFixed(0)}</span>
-                </div>
-                <Button asChild size="sm" className="rounded-full text-xs px-5">
-                  <Link to="/book">Consult Vaidya</Link>
-                </Button>
-              </div>
+              <Button asChild size="sm" variant="outline" className="rounded-full w-full border-primary/30 text-xs">
+                <Link to="/book">Book with {doc.name.split(" ")[1]}</Link>
+              </Button>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Zero Compromise Quality Standards */}
-      <section className="mt-20 leaf-card-alt bg-gradient-to-tr from-secondary/50 via-card to-primary/10 p-8 sm:p-12 border-primary/25 text-center max-w-4xl mx-auto space-y-4">
-        <ShieldCheck className="size-8 text-primary mx-auto" />
-        <h2 className="font-display text-3xl font-bold text-foreground">
-          Our Threefold Sanctum Promise
-        </h2>
-        <div className="grid sm:grid-cols-3 gap-6 pt-4 text-left">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 font-display text-base font-semibold text-foreground">
-              <CheckCircle2 className="size-4 text-primary" /> 100% Herb Purity
-            </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Never using adulterated commercial extracts. All decoctions brewed fresh on-site in bronze urulis.
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 font-display text-base font-semibold text-foreground">
-              <CheckCircle2 className="size-4 text-primary" /> Pulse-Led Precision
-            </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              No generic packages. Every therapy regimen is personalized to your three-finger Nadi Pariksha reading.
-            </p>
-          </div>
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 font-display text-base font-semibold text-foreground">
-              <CheckCircle2 className="size-4 text-primary" /> Paperless Records
-            </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Encrypted, digital health cards that sync prescriptions, diets, and lab reports right to your phone.
-            </p>
-          </div>
         </div>
       </section>
     </PageShell>
