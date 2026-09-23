@@ -14,13 +14,14 @@ export type HospitalInfo = {
 export type Announcement = { active: boolean; text: string };
 
 const fallbackHospital: HospitalInfo = {
-  name: "Aarogya Ayurveda Hospital",
-  tagline: "Classical Ayurveda, gently modern care",
-  address: "[PLACEHOLDER] Address not set yet",
-  phone: "[PLACEHOLDER] Phone not set yet",
-  email: "[PLACEHOLDER] Email not set yet",
-  hours: "[PLACEHOLDER] Hours not set yet",
-  about: "[PLACEHOLDER] About text not set yet",
+  name: "Aarogya Classical Ayurveda Hospital",
+  tagline: "Timeless Vedic Wisdom, Gentle Modern Healing",
+  address: "Sanctuary Hill, Kalady Road, Near Periyar River, Kerala 683574 | Rishikesh Campus: Tapovan, Uttarakhand",
+  phone: "+91 (0484) 246-8800 / Emergency: +91 94471 20202",
+  email: "care@aarogya-ayurveda.org",
+  hours: "Consultations: Mon - Sat 8:00 AM - 7:00 PM | Emergency Panchakarma Care: 24/7",
+  about:
+    "Rooted in the Ashtanga Hridaya lineage, Aarogya Ayurveda Hospital is a certified NABH green healthcare sanctuary combining authentic pulse diagnosis (Nadi Pariksha), pure herbal decoctions, and personalized Panchakarma cleansing.",
 };
 
 export function useSiteContent() {

@@ -14,12 +14,15 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DoctorRouteImport } from './routes/doctor'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as PanchakarmaRouteImport } from './routes/panchakarma'
 import { Route as TreatmentsRouteImport } from './routes/treatments'
+import { Route as WellnessRouteImport } from './routes/wellness'
 import { Route as DiseasesIndexRouteImport } from './routes/diseases/index'
 import { Route as DiseasesSlugRouteImport } from './routes/diseases/$slug'
 
@@ -48,6 +51,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookRoute = BookRouteImport.update({
   id: '/book',
   path: '/book',
@@ -68,6 +76,11 @@ const DoctorRoute = DoctorRouteImport.update({
   path: '/doctor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PanchakarmaRoute = PanchakarmaRouteImport.update({
   id: '/panchakarma',
   path: '/panchakarma',
@@ -76,6 +89,11 @@ const PanchakarmaRoute = PanchakarmaRouteImport.update({
 const TreatmentsRoute = TreatmentsRouteImport.update({
   id: '/treatments',
   path: '/treatments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WellnessRoute = WellnessRouteImport.update({
+  id: '/wellness',
+  path: '/wellness',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiseasesIndexRoute = DiseasesIndexRouteImport.update({
@@ -95,12 +113,15 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/doctor': typeof DoctorRoute
+  '/gallery': typeof GalleryRoute
   '/panchakarma': typeof PanchakarmaRoute
   '/treatments': typeof TreatmentsRoute
+  '/wellness': typeof WellnessRoute
   '/diseases/$slug': typeof DiseasesSlugRoute
   '/diseases/': typeof DiseasesIndexRoute
 }
@@ -110,12 +131,15 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/doctor': typeof DoctorRoute
+  '/gallery': typeof GalleryRoute
   '/panchakarma': typeof PanchakarmaRoute
   '/treatments': typeof TreatmentsRoute
+  '/wellness': typeof WellnessRoute
   '/diseases/$slug': typeof DiseasesSlugRoute
   '/diseases': typeof DiseasesIndexRoute
 }
@@ -126,12 +150,15 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/blog': typeof BlogRoute
   '/book': typeof BookRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/doctor': typeof DoctorRoute
+  '/gallery': typeof GalleryRoute
   '/panchakarma': typeof PanchakarmaRoute
   '/treatments': typeof TreatmentsRoute
+  '/wellness': typeof WellnessRoute
   '/diseases/$slug': typeof DiseasesSlugRoute
   '/diseases/': typeof DiseasesIndexRoute
 }
@@ -143,12 +170,15 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assistant'
     | '/auth'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/dashboard'
     | '/doctor'
+    | '/gallery'
     | '/panchakarma'
     | '/treatments'
+    | '/wellness'
     | '/diseases/$slug'
     | '/diseases/'
   fileRoutesByTo: FileRoutesByTo
@@ -158,12 +188,15 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assistant'
     | '/auth'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/dashboard'
     | '/doctor'
+    | '/gallery'
     | '/panchakarma'
     | '/treatments'
+    | '/wellness'
     | '/diseases/$slug'
     | '/diseases'
   id:
@@ -173,12 +206,15 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assistant'
     | '/auth'
+    | '/blog'
     | '/book'
     | '/contact'
     | '/dashboard'
     | '/doctor'
+    | '/gallery'
     | '/panchakarma'
     | '/treatments'
+    | '/wellness'
     | '/diseases/$slug'
     | '/diseases/'
   fileRoutesById: FileRoutesById
@@ -189,12 +225,15 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
+  BlogRoute: typeof BlogRoute
   BookRoute: typeof BookRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   DoctorRoute: typeof DoctorRoute
+  GalleryRoute: typeof GalleryRoute
   PanchakarmaRoute: typeof PanchakarmaRoute
   TreatmentsRoute: typeof TreatmentsRoute
+  WellnessRoute: typeof WellnessRoute
   DiseasesSlugRoute: typeof DiseasesSlugRoute
   DiseasesIndexRoute: typeof DiseasesIndexRoute
 }
@@ -236,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book': {
       id: '/book'
       path: '/book'
@@ -264,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/panchakarma': {
       id: '/panchakarma'
       path: '/panchakarma'
@@ -276,6 +329,13 @@ declare module '@tanstack/react-router' {
       path: '/treatments'
       fullPath: '/treatments'
       preLoaderRoute: typeof TreatmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wellness': {
+      id: '/wellness'
+      path: '/wellness'
+      fullPath: '/wellness'
+      preLoaderRoute: typeof WellnessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/diseases/': {
@@ -301,12 +361,15 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
+  BlogRoute: BlogRoute,
   BookRoute: BookRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   DoctorRoute: DoctorRoute,
+  GalleryRoute: GalleryRoute,
   PanchakarmaRoute: PanchakarmaRoute,
   TreatmentsRoute: TreatmentsRoute,
+  WellnessRoute: WellnessRoute,
   DiseasesSlugRoute: DiseasesSlugRoute,
   DiseasesIndexRoute: DiseasesIndexRoute,
 }

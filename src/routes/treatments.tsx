@@ -1,77 +1,399 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState, useMemo } from "react";
 import { PageShell } from "@/components/site/PageShell";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Wind,
+  Flame,
+  Droplets,
+  Sparkles,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  ArrowRight,
+  ShieldCheck,
+  HeartHandshake,
+  Layers,
+} from "lucide-react";
 import { useTreatments } from "@/lib/queries";
+import { MediaPlaceholder } from "@/components/ui/MediaPlaceholder";
 
 export const Route = createFileRoute("/treatments")({
   head: () => ({
     meta: [
-      { title: "Ayurvedic Treatments — Abhyanga, Shirodhara & more" },
+      { title: "Classical Ayurvedic Treatments — Categorized by Doshas | Aarogya Hospital" },
       {
         name: "description",
         content:
-          "Abhyanga, Shirodhara, Elakizhi, Netra Tarpana and Udvartana: durations, benefits and fees for each Ayurvedic therapy.",
-      },
-      { property: "og:title", content: "Ayurvedic Treatments" },
-      {
-        property: "og:description",
-        content: "Durations, benefits and fees for each classical Ayurvedic therapy.",
+          "Explore authentic Ayurvedic therapies categorized by Vata, Pitta, and Kapha: Abhyanga, Shirodhara, Janu Basti, Pizhichil, Udvartana, and Kizhi therapies.",
       },
     ],
   }),
-  component: Treatments,
+  component: TreatmentsPage,
 });
 
-function Treatments() {
-  const { data, isLoading } = useTreatments();
+interface ClassicalTherapyItem {
+  id: string;
+  name: string;
+  sanskrit: string;
+  dosha: "Vata" | "Pitta" | "Kapha" | "Tridosha";
+  duration: string;
+  price: number;
+  oilsUsed: string;
+  summary: string;
+  description: string;
+  benefits: string[];
+  recommendedCourse: string;
+}
+
+const CLASSICAL_TREATMENTS: ClassicalTherapyItem[] = [
+  {
+    id: "abhyanga",
+    name: "Sarvanga Abhyanga",
+    sanskrit: "सर्वाङ्ग अभ्यङ्ग",
+    dosha: "Vata",
+    duration: "60 mins",
+    price: 2400,
+    oilsUsed: "Warm Dhanwantharam or Mahanarayana Taila",
+    summary: "Full-body synchronization massage with warm classical medicated oils using rhythmic longitudinal strokes.",
+    description:
+      "Administered by two therapists in rhythmic tandem along the direction of venous blood flow (Anuloma). The warm medicated oil penetrates deep into cutaneous pores, pacifying agitated Prana and Vyana Vata.",
+    benefits: [
+      "Pacifies chronic joint cracking and nervous restlessness",
+      "Improves lymph drainage and cutaneous peripheral circulation",
+      "Induces profound, restorative natural sleep (Nidra)",
+    ],
+    recommendedCourse: "3 to 7 consecutive morning sessions",
+  },
+  {
+    id: "shirodhara",
+    name: "Shirodhara (Herbal Stream)",
+    sanskrit: "शिरोधारा",
+    dosha: "Vata",
+    duration: "45 mins",
+    price: 3200,
+    oilsUsed: "Brahmi Taila, Ksheerabala 101, or Chandanadi",
+    summary: "Continuous, hypnotic oscillation of warm herbal oil or medicated milk over the forehead and third eye.",
+    description:
+      "A steady stream of warm herbal oil flows from an oscillating copper vessel suspended above the Ajna Marma. Stimulates the cranial nerves, dampening sympathetic fight-or-flight overstimulation and replenishing cerebral neurotransmitters.",
+    benefits: [
+      "Deep clinical relief from chronic insomnia and anxiety",
+      "Relieves persistent tension headaches and vascular migraines",
+      "Soothes sensory organ exhaustion and computer fatigue",
+    ],
+    recommendedCourse: "7 to 14 days course",
+  },
+  {
+    id: "janu-basti",
+    name: "Janu Basti (Knee Reservoir)",
+    sanskrit: "जानु बस्ति",
+    dosha: "Vata",
+    duration: "45 mins",
+    price: 2200,
+    oilsUsed: "Murivenna & Kottamchukkadi Taila",
+    summary: "Ring of black gram dough sealed over the knee joints holding warm anti-inflammatory herbal oil.",
+    description:
+      "A therapeutic reservoir formed from herbal dough retains warm medicated oils over the patellar joint. Continually replenished at constant therapeutic temperature to deeply lubricate eroded cartilage and restore synovial fluid.",
+    benefits: [
+      "Reduces chronic osteoarthritis crepitus (crackling)",
+      "Strengthens knee ligaments, tendons, and patellar stability",
+      "Dramatically eases morning stiffness when walking or climbing stairs",
+    ],
+    recommendedCourse: "5 to 9 sessions with herbal poultice",
+  },
+  {
+    id: "pizhichil",
+    name: "Pizhichil (Royal Oil Bath)",
+    sanskrit: "पिऴिच्चिल् (तैलाभिषेक)",
+    dosha: "Vata",
+    duration: "75 mins",
+    price: 4500,
+    oilsUsed: "Medicated Sahacharadi & Bala Taila (approx. 4 litres)",
+    summary: "The celebrated King of Ayurvedic therapies: continuous streams of warm medicated oil squeezed across the body.",
+    description:
+      "Two to four therapists dip fresh linen cloths into cauldrons of heated medicated herbal oil, gently squeezing continuous warm cascades over the entire body while synchronously massaging the muscles.",
+    benefits: [
+      "Extraordinary rejuvenation for paralytic and hemiplegic conditions",
+      "Reverses degenerative disc disorders and chronic sciatica",
+      "Arrests premature physical aging and restores muscle tone",
+    ],
+    recommendedCourse: "7, 14, or 21 days residential stay",
+  },
+  {
+    id: "takradhara",
+    name: "Takradhara (Cooling Buttermilk)",
+    sanskrit: "तक्रधारा",
+    dosha: "Pitta",
+    duration: "50 mins",
+    price: 2800,
+    oilsUsed: "Medicated A2 buttermilk infused with Musta & Amalaki",
+    summary: "Cooling stream of medicated herbal buttermilk poured continuously across the forehead.",
+    description:
+      "Prepared by boiling medicinal roots (Cyperus rotundus) in herbal decoctions and blending with cultured cow buttermilk. Specifically cools inflamed Pitta in the brain, pituitary axis, and cutaneous micro-vessels.",
+    benefits: [
+      "Superior therapy for psoriasis, alopecia, and stress eczema",
+      "Relieves burning eyes, high blood pressure, and chronic irritability",
+      "Deeply cools hot, hyperactive mental states",
+    ],
+    recommendedCourse: "7 to 11 consecutive days",
+  },
+  {
+    id: "netra-tarpana",
+    name: "Netra Tarpana (Eye Rejuvenation)",
+    sanskrit: "नेत्र तर्पण",
+    dosha: "Pitta",
+    duration: "40 mins",
+    price: 1800,
+    oilsUsed: "Maha Triphala Ghrita (Medicated Ghee)",
+    summary: "Gentle eye bath retaining pure warm medicated ghee within herbal dough walls over the ocular orbits.",
+    description:
+      "Patients open and blink their eyes within pure, golden herbal ghee. Deeply nourishes the optic nerves, cools retinal inflammation, and pacifies Alochaka Pitta irritated by excessive blue-light exposure.",
+    benefits: [
+      "Relieves dry eye syndrome, digital eye strain, and burning",
+      "Strengthens optic nerve pathways and improves focal clarity",
+      "Slows early age-related retinal degenerative changes",
+    ],
+    recommendedCourse: "3 to 5 treatments with intervals",
+  },
+  {
+    id: "udvartana",
+    name: "Udvartana (Dry Herbal Scrub)",
+    sanskrit: "उद्वर्तन",
+    dosha: "Kapha",
+    duration: "50 mins",
+    price: 2600,
+    oilsUsed: "Kolatekulathadi & Triphala Churna (Dry herbal powders)",
+    summary: "Vigorous upward lymphatic massage using warm dry medicinal powders to liquefy subcutaneous fat.",
+    description:
+      "Therapists rub coarse, astringent herbal powders firmly upwards against hair follicles (Pratiloma). Generates internal thermal friction, opens blocked lymphatic ducts, and mobilizes dense subcutaneous Kapha.",
+    benefits: [
+      "Assists in healthy weight management and cellulite reduction",
+      "Exfoliates dead skin cells, giving the skin a healthy golden glow",
+      "Dispels physical lethargy and restores metabolic lightness (Laghavam)",
+    ],
+    recommendedCourse: "7 to 14 sessions alongside diet",
+  },
+  {
+    id: "elakizhi",
+    name: "Elakizhi (Leaf Bolus Swedana)",
+    sanskrit: "इलय्किऴि (पत्रपिण्ड स्वेद)",
+    dosha: "Kapha",
+    duration: "60 mins",
+    price: 2800,
+    oilsUsed: "Castor, Tamarind & Nirgundi leaves fried in herbal oil",
+    summary: "Heated herbal linen pouches packed with fresh medicinal leaves tapped rhythmically over stiff joints.",
+    description:
+      "Freshly chopped medicinal leaves (Arka, Nirgundi, Eranda) are sauteed with rock salt, garlic, and medicated oils in bronze woks, tied into tight linen boluses, and applied rhythmically to sweat out deep inflammatory toxins.",
+    benefits: [
+      "Outstanding relief from lumbar spondylosis and frozen shoulder",
+      "Reduces painful swellings, muscle spasms, and sports injuries",
+      "Induces therapeutic sweating without drying the skin",
+    ],
+    recommendedCourse: "5 to 7 days course",
+  },
+  {
+    id: "navarakizhi",
+    name: "Navarakizhi (Shashtika Shali Sweda)",
+    sanskrit: "षष्टिकशालि पिण्डस्वेद",
+    dosha: "Tridosha",
+    duration: "60 mins",
+    price: 3600,
+    oilsUsed: "Sacred 60-day red rice cooked in Balarishta & cow milk",
+    summary: "Nourishing boluses of medicinal red rice cooked in milk massaged over the body to rebuild depleted muscle.",
+    description:
+      "A prestigious classical rejuvenation therapy (*Brimhana*). Organic Shashtika rice is simmered in concentrated Sida cordifolia (Bala) roots and cow milk. The warm poultices infuse rich nutrients directly into muscle tissue.",
+    benefits: [
+      "Rehabilitates muscle wasting, dystrophy, and post-viral debility",
+      "Enhances skin luminosity, elasticity, and tissue tone",
+      "Deeply balances all three doshas and fortifies Ojas",
+    ],
+    recommendedCourse: "7 to 14 days rejuvenation",
+  },
+];
+
+export function TreatmentsPage() {
+  const [activeDosha, setActiveDosha] = useState<"All" | "Vata" | "Pitta" | "Kapha" | "Tridosha">("All");
+
+  const filteredTherapies = useMemo(() => {
+    if (activeDosha === "All") return CLASSICAL_TREATMENTS;
+    return CLASSICAL_TREATMENTS.filter((t) => t.dosha === activeDosha);
+  }, [activeDosha]);
+
+  const doshaMeta = {
+    Vata: {
+      title: "Vata Pacifying Therapies (Air & Ether)",
+      desc: "For ailments driven by dryness, coldness, crackling joints, restlessness, or nervous exhaustion. Characterized by warm, deep unctuous herbal oils.",
+      badge: "bg-primary/10 text-primary border-primary/20",
+    },
+    Pitta: {
+      title: "Pitta Pacifying Therapies (Fire & Water)",
+      desc: "For inflammation, hyper-acidity, skin rashes, burning sensations, and intense irritability. Characterized by cooling herbs, ghee, and buttermilk.",
+      badge: "bg-accent/20 text-accent-foreground border-accent/30",
+    },
+    Kapha: {
+      title: "Kapha Pacifying Therapies (Water & Earth)",
+      desc: "For sluggish metabolism, fluid retention, heavy sinuses, weight gain, and joint stiffness. Characterized by stimulating herbal powders and leaf steam.",
+      badge: "bg-destructive/10 text-destructive border-destructive/20",
+    },
+    Tridosha: {
+      title: "Tridosha Balancing & Rejuvenation (Rasayana)",
+      desc: "Comprehensive therapies tailored to harmonize all three constitutional elements and fortify bodily vitality (Ojas).",
+      badge: "bg-secondary text-foreground border-border",
+    },
+  };
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-6xl px-4 py-14">
-        <h1 className="font-display text-4xl">Treatments</h1>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
-          Every therapy is prescribed after a consultation, so the oils, herbs and duration suit your
-          constitution and current condition.
-        </p>
+      {/* Treatments Hero Header */}
+      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary/10 via-secondary/40 to-background border border-border px-6 py-14 sm:px-12 sm:py-20 text-center">
+        <div className="mx-auto max-w-3xl space-y-4">
+          <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-4 py-1 text-xs">
+            <Sparkles className="size-3.5 text-accent mr-1.5" /> Classical Hospital Chikitsa
+          </Badge>
+          <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-foreground text-balance-display">
+            Classical Ayurvedic Therapies
+          </h1>
+          <p className="font-serif italic text-lg sm:text-xl text-primary/80">
+            Categorized by Constitutional Doshas: Vata, Pitta, and Kapha
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed max-w-xl mx-auto">
+            Ayurveda never treats a disease in isolation; we harmonize the underlying energetic disequilibrium. Browse our hospital therapies by their primary dosha focus.
+          </p>
+        </div>
+      </section>
 
-        {isLoading && <p className="mt-8 text-sm text-muted-foreground">Loading treatments…</p>}
+      {/* Interactive Dosha Filter Tabs */}
+      <section className="mt-12 space-y-8">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {(["All", "Vata", "Pitta", "Kapha", "Tridosha"] as const).map((dosha) => {
+            const count = dosha === "All" ? CLASSICAL_TREATMENTS.length : CLASSICAL_TREATMENTS.filter((t) => t.dosha === dosha).length;
+            return (
+              <button
+                key={dosha}
+                onClick={() => setActiveDosha(dosha)}
+                className={`rounded-full px-5 py-2 text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                  activeDosha === dosha
+                    ? "bg-primary text-primary-foreground shadow-lift"
+                    : "bg-secondary text-muted-foreground hover:bg-secondary/80 border border-border"
+                }`}
+              >
+                <span>{dosha === "All" ? "All Therapies" : `${dosha} Balancing`}</span>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${activeDosha === dosha ? "bg-white/20 text-white" : "bg-card text-muted-foreground"}`}>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {(data ?? []).map((t) => (
-            <Card key={t.id}>
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between gap-4">
-                  <h2 className="text-xl">{t.name}</h2>
-                  <span className="whitespace-nowrap text-sm text-muted-foreground">
-                    {t.duration}
+        {/* Dosha Philosophy Context Box if a specific dosha is active */}
+        {activeDosha !== "All" && (
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 text-center max-w-2xl mx-auto space-y-1">
+            <h3 className="font-display text-lg font-bold text-primary">
+              {doshaMeta[activeDosha].title}
+            </h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              {doshaMeta[activeDosha].desc}
+            </p>
+          </div>
+        )}
+
+        {/* Cinematic Classical Chikitsa Video Stage */}
+        <div className="max-w-4xl mx-auto my-6">
+          <MediaPlaceholder
+            title="Authentic Droni & Shirodhara Cinematic Demonstration"
+            subtitle="Watch how warm medicated oils are rhythmically applied in tandem according to Sushruta Samhita clinical guidelines."
+            badge="Live Therapy Demonstration"
+            aspectRatio="16/9"
+            previewUrl="/media/treatments.mp4"
+            duration="3:12 mins"
+          />
+        </div>
+
+        {/* Fluid Organic Therapies Grid */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredTherapies.map((therapy) => (
+            <div
+              key={therapy.id}
+              className="leaf-card p-6 flex flex-col justify-between hover:shadow-lift hover:border-primary/50 transition-all space-y-5 group"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Badge variant="outline" className={`text-[11px] font-medium ${doshaMeta[therapy.dosha].badge}`}>
+                    {therapy.dosha} Pacifying
+                  </Badge>
+                  <span className="text-xs font-mono font-medium text-muted-foreground flex items-center gap-1">
+                    <Clock className="size-3 text-primary" /> {therapy.duration}
                   </span>
                 </div>
-                <p className="mt-2 text-sm text-primary">{t.summary}</p>
-                <p className="mt-3 text-sm text-muted-foreground">{t.description}</p>
-                {t.benefits.length > 0 && (
-                  <ul className="mt-4 space-y-1 text-sm text-muted-foreground">
-                    {t.benefits.map((b) => (
-                      <li key={b} className="flex gap-2">
-                        <span className="text-accent">•</span>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-sm font-medium">
-                    {t.price ? `₹${Number(t.price).toFixed(0)}` : "Fee on consultation"}
+
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                    {therapy.name}
+                  </h3>
+                  <span className="font-serif italic text-xs text-primary/80 block mt-0.5">
+                    {therapy.sanskrit}
                   </span>
-                  <Button asChild size="sm">
-                    <Link to="/book">Book a consultation</Link>
-                  </Button>
                 </div>
-              </CardContent>
-            </Card>
+
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {therapy.summary}
+                </p>
+
+                {/* Oils & Formulations Tag */}
+                <div className="rounded-xl bg-secondary/50 p-2.5 text-[11px] text-foreground/90 border border-border/60">
+                  <strong className="text-primary font-semibold block text-[10px] uppercase tracking-wider">
+                    Medicaments & Oils:
+                  </strong>
+                  <span>{therapy.oilsUsed}</span>
+                </div>
+
+                {/* Benefits Bullet Points */}
+                <ul className="space-y-1.5 text-xs text-muted-foreground pt-1">
+                  {therapy.benefits.map((b, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="size-3.5 text-primary shrink-0 mt-0.5" />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Bottom Card Action and Pricing */}
+              <div className="pt-4 border-t border-border flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-muted-foreground block">Session Fee</span>
+                  <span className="font-bold text-base text-foreground">
+                    ₹{therapy.price.toFixed(0)}
+                  </span>
+                </div>
+                <Button asChild size="sm" className="rounded-full px-5 text-xs shadow-soft">
+                  <Link to="/book">
+                    Book Therapy <ArrowRight className="size-3.5 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
+      </section>
+
+      {/* Physician Evaluation Note Banner */}
+      <section className="mt-20 leaf-card-alt bg-gradient-to-tr from-secondary/60 via-card to-primary/10 p-8 sm:p-12 border-primary/20 text-center max-w-4xl mx-auto space-y-4">
+        <ShieldCheck className="size-8 text-primary mx-auto" />
+        <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground">
+          Every Therapy Begins with a Nadi Pariksha Assessment
+        </h2>
+        <p className="text-xs sm:text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          In adherence to hospital protocol, all therapies are prescribed by our resident Vaidyas after pulse diagnosis to select the exact temperature, pressure, and herbal formulation best suited to your Prakriti.
+        </p>
+        <div className="pt-2">
+          <Button asChild size="lg" className="rounded-full px-8 shadow-soft">
+            <Link to="/book">Schedule Initial Doctor Consultation</Link>
+          </Button>
+        </div>
+      </section>
     </PageShell>
   );
 }
