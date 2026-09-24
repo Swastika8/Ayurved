@@ -19,6 +19,7 @@ import { Route as BookRouteImport } from './routes/book'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DoctorRouteImport } from './routes/doctor'
+import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as PanchakarmaRouteImport } from './routes/panchakarma'
 import { Route as TreatmentsRouteImport } from './routes/treatments'
@@ -76,6 +77,11 @@ const DoctorRoute = DoctorRouteImport.update({
   path: '/doctor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DoctorsRoute = DoctorsRouteImport.update({
+  id: '/doctors',
+  path: '/doctors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/doctor': typeof DoctorRoute
+  '/doctors': typeof DoctorsRoute
   '/gallery': typeof GalleryRoute
   '/panchakarma': typeof PanchakarmaRoute
   '/treatments': typeof TreatmentsRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/doctor': typeof DoctorRoute
+  '/doctors': typeof DoctorsRoute
   '/gallery': typeof GalleryRoute
   '/panchakarma': typeof PanchakarmaRoute
   '/treatments': typeof TreatmentsRoute
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/doctor': typeof DoctorRoute
+  '/doctors': typeof DoctorsRoute
   '/gallery': typeof GalleryRoute
   '/panchakarma': typeof PanchakarmaRoute
   '/treatments': typeof TreatmentsRoute
@@ -175,6 +184,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dashboard'
     | '/doctor'
+    | '/doctors'
     | '/gallery'
     | '/panchakarma'
     | '/treatments'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dashboard'
     | '/doctor'
+    | '/doctors'
     | '/gallery'
     | '/panchakarma'
     | '/treatments'
@@ -211,6 +222,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/dashboard'
     | '/doctor'
+    | '/doctors'
     | '/gallery'
     | '/panchakarma'
     | '/treatments'
@@ -230,6 +242,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   DoctorRoute: typeof DoctorRoute
+  DoctorsRoute: typeof DoctorsRoute
   GalleryRoute: typeof GalleryRoute
   PanchakarmaRoute: typeof PanchakarmaRoute
   TreatmentsRoute: typeof TreatmentsRoute
@@ -310,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DoctorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/doctors': {
+      id: '/doctors'
+      path: '/doctors'
+      fullPath: '/doctors'
+      preLoaderRoute: typeof DoctorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gallery': {
       id: '/gallery'
       path: '/gallery'
@@ -366,6 +386,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   DoctorRoute: DoctorRoute,
+  DoctorsRoute: DoctorsRoute,
   GalleryRoute: GalleryRoute,
   PanchakarmaRoute: PanchakarmaRoute,
   TreatmentsRoute: TreatmentsRoute,

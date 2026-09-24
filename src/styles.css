@@ -362,3 +362,41 @@
   animation: levitate 6s ease-in-out infinite;
 }
 
+@keyframes panchaRayBreathe {
+  0%, 100% {
+    transform: scale(0.96);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.98;
+  }
+}
+
+@keyframes panchaLotusSway {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3.5px) rotate(0.4deg);
+  }
+}
+
+@keyframes panchaGlyphSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

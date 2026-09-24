@@ -4,6 +4,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Panchakarma3DStage } from "@/components/ayurveda/Panchakarma3DStage";
+import { PanchakarmaSacredMandala } from "@/components/ayurveda/PanchakarmaSacredMandala";
 import { PANCHAKARMA_THERAPIES, type PanchakarmaTherapyDetail } from "@/data/panchakarma";
 import { SANCTUARIES } from "@/data/hospital";
 import {
@@ -73,121 +74,24 @@ export function PanchakarmaPage() {
           </p>
         </div>
 
-        {/* 2. MASSIVE CENTRAL FULL-WIDTH MANDALA STAGE (FULL SCREEN BACKGROUND) */}
-        <div className="mt-14 relative w-full min-h-[75vh] lg:min-h-[85vh] flex items-center justify-center overflow-hidden">
-          {/* Subtle Rotating Sacred Geometry Rings */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-40">
-            <div className="w-[500px] sm:w-[700px] lg:w-[950px] h-[500px] sm:h-[700px] lg:h-[950px] rounded-full border border-primary/20 animate-[spin_120s_linear_infinite]" />
-            <div className="absolute w-[400px] sm:w-[550px] lg:w-[750px] h-[400px] sm:h-[550px] lg:h-[750px] rounded-full border border-dashed border-accent/25 animate-[spin_80s_linear_infinite_reverse]" />
-          </div>
-
-          {/* Full-Screen Background Image Layer */}
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-            <img
-              src="/media/panchakarma-main.jpg"
-              alt="Panchakarma Sacred Biological Diagram"
-              className="w-full h-full object-cover object-center filter saturate-[1.18] contrast-[1.08] brightness-[0.98] opacity-100"
-            />
-            {/* Transparent dark vignette: ZERO whitish hue, letting rich sacred mandala gold & earthy tones shine */}
-            <div className="absolute inset-0 bg-radial from-transparent via-black/25 to-black/60 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40 pointer-events-none" />
-          </div>
-
-            {/* Interactive Anatomical Hotspots Overlaid on the Mandala */}
-            <div className="absolute inset-0 max-w-5xl mx-auto pointer-events-none">
-              {/* Hotspot 1: Nasya (Head / Cranial) */}
-              <div
-                style={{ top: "18%", left: "50%" }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group cursor-pointer z-20"
-                onClick={() => handleHotspotClick("nasya")}
-              >
-                <div className="relative flex items-center justify-center">
-                  <div className="size-10 rounded-full bg-accent/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-black/80 border-2 border-accent text-accent shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
-                    <Wind className="size-5" />
-                  </div>
-                  {/* Floating Pill Label */}
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-accent/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-[#e6ca65] font-semibold">Nasya:</strong> Cranial & Sinus Flush
-                  </div>
-                </div>
-              </div>
-
-              {/* Hotspot 2: Vamana (Chest / Gastric) */}
-              <div
-                style={{ top: "34%", left: "48%" }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group cursor-pointer z-20"
-                onClick={() => handleHotspotClick("vamana")}
-              >
-                <div className="relative flex items-center justify-center">
-                  <div className="size-10 rounded-full bg-primary/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-black/80 border-2 border-emerald-400 text-emerald-400 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
-                    <Droplets className="size-5" />
-                  </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-emerald-500/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-emerald-400 font-semibold">Vamana:</strong> Kapha Emesis
-                  </div>
-                </div>
-              </div>
-
-              {/* Hotspot 3: Virechana (Liver / Small Intestine) */}
-              <div
-                style={{ top: "48%", left: "54%" }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group cursor-pointer z-20"
-                onClick={() => handleHotspotClick("virechana")}
-              >
-                <div className="relative flex items-center justify-center">
-                  <div className="size-10 rounded-full bg-amber-500/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-black/80 border-2 border-amber-400 text-amber-400 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
-                    <Flame className="size-5" />
-                  </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-amber-500/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-amber-400 font-semibold">Virechana:</strong> Pitta & Liver Purge
-                  </div>
-                </div>
-              </div>
-
-              {/* Hotspot 4: Basti (Colon / Supreme Vata Seat) */}
-              <div
-                style={{ top: "62%", left: "47%" }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group cursor-pointer z-20"
-                onClick={() => handleHotspotClick("basti")}
-              >
-                <div className="relative flex items-center justify-center">
-                  <div className="size-10 rounded-full bg-primary/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-black/80 border-2 border-primary text-primary shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
-                    <Layers className="size-5" />
-                  </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-primary/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-[#f3e5ab] font-semibold">Basti:</strong> Ardha Chikitsa (Enema)
-                  </div>
-                </div>
-              </div>
-
-              {/* Hotspot 5: Raktamokshana (Blood / Micro-Vascular) */}
-              <div
-                style={{ top: "78%", left: "44%" }}
-                className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-auto group cursor-pointer z-20"
-                onClick={() => handleHotspotClick("raktamokshana")}
-              >
-                <div className="relative flex items-center justify-center">
-                  <div className="size-10 rounded-full bg-rose-500/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-black/80 border-2 border-rose-400 text-rose-400 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
-                    <Activity className="size-5" />
-                  </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-rose-500/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-rose-400 font-semibold">Raktamokshana:</strong> Leech Therapy
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Floating Instruction Banner below Mandala */}
-        <div className="text-center mt-6">
-          <p className="text-xs sm:text-sm font-mono text-muted-foreground uppercase tracking-wider">
-            ✦ Click any anatomical hotspot above to explore the clinical protocol and 3D simulation ✦
-          </p>
+        {/* 2. SACRED PANCHAKARMA INSTALLATION: BLACK SILHOUETTE, BREATHING GOLDEN RAYS, SWAYING LOTUS, & 7 ROTATING SYMBOLS */}
+        <div className="mt-8 relative w-full overflow-hidden">
+          <PanchakarmaSacredMandala
+            selectedTherapyId={selectedTherapyKey}
+            onSelectTherapy={(key) => {
+              const mapKey: Record<string, string> = {
+                nasya: "nasya",
+                vaman: "vamana",
+                virechan: "virechana",
+                vasti: "basti",
+                snehapan: "vamana",
+                swedan: "basti",
+                abhyang: "virechana",
+              };
+              setSelectedTherapyKey(mapKey[key] || key);
+              deepDiveRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+          />
         </div>
       </section>
 

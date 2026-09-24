@@ -38,14 +38,14 @@ import { markNotificationAsRead } from "@/lib/notifications";
 
 const navItems = [
   { to: "/", label: "Home" },
+  { to: "/about", label: "About" },
   { to: "/treatments", label: "Treatments" },
   { to: "/panchakarma", label: "Panchakarma" },
   { to: "/wellness", label: "Wellness" },
+  { to: "/doctors", label: "Doctors" },
   { to: "/diseases", label: "Disease Library" },
   { to: "/blog", label: "Wisdom Blog" },
   { to: "/gallery", label: "Sanctuary" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
 ] as const;
 
 function ThemeToggle() {
@@ -147,12 +147,28 @@ function NotificationBell({ userId }: { userId?: string | undefined }) {
 export function SiteHeader() {
   const { user, isAdmin, isDoctor, signOut } = useAuth();
   const { hospital } = useSiteContent();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const accountLink = isAdmin ? "/admin" : isDoctor ? "/doctor" : "/dashboard";
   const accountRoleLabel = isAdmin ? "Administrator" : isDoctor ? "Chief Vaidya" : "Registered Patient";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-md transition-all">
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? "border-b border-border/70 bg-background/95 backdrop-blur-md shadow-soft"
+          : "border-b border-border/30 bg-background/80 backdrop-blur-xs"
+      }`}
+    >
       {/* Top micro announcement banner */}
       <div className="hidden sm:flex items-center justify-between px-6 py-1 bg-primary/10 border-b border-primary/15 text-[11px] text-primary">
         <div className="flex items-center gap-2">
