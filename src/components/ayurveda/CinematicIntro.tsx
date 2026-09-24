@@ -15,7 +15,6 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
   const [progress, setProgress] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const ambientVideoRef = useRef<HTMLVideoElement | null>(null);
 
   // Web Audio Context for Vedic OM/Tanpura Harmonic Drone
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -113,6 +112,13 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
       return;
     }
     try {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("intro") === "true") {
+          setIsVisible(true);
+          return;
+        }
+      }
       const hasSeen = sessionStorage.getItem(STORAGE_KEY);
       if (!hasSeen) {
         setIsVisible(true);
@@ -122,15 +128,11 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
     }
   }, [forceShow]);
 
-  // Synchronize ambient video with main video
   const handleTimeUpdate = () => {
     if (!videoRef.current) return;
     const { currentTime, duration } = videoRef.current;
     if (duration > 0) {
       setProgress(Math.min(100, Math.round((currentTime / duration) * 100)));
-    }
-    if (ambientVideoRef.current && Math.abs(ambientVideoRef.current.currentTime - currentTime) > 0.3) {
-      ambientVideoRef.current.currentTime = currentTime;
     }
   };
 
@@ -149,10 +151,9 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
   };
 
   const handleVideoEnded = () => {
-    // Hold briefly on the final frame before smooth fade out
     setTimeout(() => {
       handleFinish();
-    }, 1200);
+    }, 800);
   };
 
   if (!isVisible) return null;
@@ -160,43 +161,31 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
   return (
     <div
       aria-label="Aarogya Ayurvedic Cinematic Entrance Sequence"
-      className={`fixed inset-0 z-[9999] w-screen h-screen overflow-hidden select-none bg-[#090e0a] transition-opacity duration-800 ${
+      onClick={handleFinish}
+      className={`fixed inset-0 z-[9999] w-screen h-screen overflow-hidden select-none bg-[#090e0a] cursor-pointer transition-opacity duration-800 ${
         isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      {/* Ambient background bloom matching video colors */}
+      {/* 1. Full-Screen Edge-to-Edge Video (Occupies 100vw × 100vh with zero border/letterboxing) */}
       <video
-        ref={ambientVideoRef}
+        ref={videoRef}
         src="/media/intro.mp4"
         autoPlay
-        loop
-        muted
         playsInline
+        muted={isMuted}
         preload="auto"
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover filter blur-3xl opacity-35 scale-110 pointer-events-none"
+        onClick={handleFinish}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleVideoEnded}
+        title="Click anywhere to open website"
+        className="absolute inset-0 w-full h-full object-cover object-center filter saturate-[1.08] contrast-[1.04] brightness-[1.01] cursor-pointer"
       />
 
-      {/* Main Crisp High-Definition Video Player */}
-      <div className="relative z-10 w-full h-full flex items-center justify-center p-2 sm:p-6 lg:p-8">
-        <video
-          ref={videoRef}
-          src="/media/intro.mp4"
-          autoPlay
-          playsInline
-          muted={isMuted}
-          preload="auto"
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleVideoEnded}
-          className="w-full h-full max-w-7xl max-h-[88vh] object-contain rounded-2xl sm:rounded-3xl shadow-2xl filter saturate-[1.08] contrast-[1.05] brightness-[1.02]"
-        />
-      </div>
-
-      {/* Subtle radial vignette around screen edges */}
-      <div className="absolute inset-0 pointer-events-none z-15 bg-[radial-gradient(ellipse_at_center,transparent_60%,rgba(9,14,10,0.75)_100%)]" />
+      {/* Subtle Dark Gradient Scrim to ensure controls and brand badge are legible */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/60 via-transparent to-black/35" />
 
       {/* Top Center Brand Seal */}
-      <div className="absolute top-4 sm:top-6 left-1/2 -translate-x-1/2 flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/65 backdrop-blur-md border border-[#d4af37]/40 text-[#f3e5ab] text-xs font-serif tracking-widest uppercase shadow-soft pointer-events-none z-20">
+      <div className="absolute top-4 sm:top-6 left-1/2 -translate-x-1/2 flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-[#d4af37]/40 text-[#f3e5ab] text-xs font-serif tracking-widest uppercase shadow-soft pointer-events-none z-20">
         <Sparkles className="size-3 text-[#e6ca65]" />
         <span>Aarogya • Classical Ashtanga Sanctuary</span>
       </div>
@@ -204,8 +193,11 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
       {/* Top Right Quick Skip Button */}
       <button
         type="button"
-        onClick={handleFinish}
-        className="absolute top-4 sm:top-6 right-4 sm:right-8 z-20 flex items-center gap-1.5 text-xs text-white/80 hover:text-white font-mono uppercase tracking-wider bg-black/40 hover:bg-black/60 border border-white/20 px-3.5 py-1.5 rounded-full transition-all cursor-pointer backdrop-blur-md"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleFinish();
+        }}
+        className="absolute top-4 sm:top-6 right-4 sm:right-8 z-20 flex items-center gap-1.5 text-xs text-white/90 hover:text-white font-mono uppercase tracking-wider bg-black/45 hover:bg-black/70 border border-white/20 hover:border-white/40 px-4 py-1.5 rounded-full transition-all cursor-pointer backdrop-blur-md shadow-lg"
         aria-label="Skip cinematic entrance"
       >
         <span>Skip</span>
@@ -214,10 +206,13 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
 
       {/* Bottom Control Strip */}
       <div className="absolute bottom-6 sm:bottom-8 inset-x-4 sm:inset-x-12 flex flex-col sm:flex-row items-center justify-between gap-4 z-20 pointer-events-auto">
-        {/* Sound Toggle */}
+        {/* Sound Toggle (Stops event propagation so clicking sound doesn't trigger finish) */}
         <button
           type="button"
-          onClick={toggleSound}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleSound();
+          }}
           className={`flex items-center gap-2 text-xs font-sans px-4 py-2 rounded-full border transition-all cursor-pointer shadow-soft backdrop-blur-md ${
             !isMuted
               ? "bg-black/85 text-[#e6ca65] border-[#d4af37]/70 ring-2 ring-[#d4af37]/20"
@@ -233,7 +228,7 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
           <span>{isMuted ? "Sound: Off" : "Sound: On (Vedic Sacred Tone)"}</span>
         </button>
 
-        {/* Center Golden Progress & Sacred Tag */}
+        {/* Center Golden Progress & Click Hint */}
         <div className="flex flex-col items-center gap-1.5 text-center bg-black/65 backdrop-blur-md px-5 py-2 rounded-full border border-white/10 shadow-soft">
           <div className="w-44 sm:w-56 h-1 rounded-full bg-white/20 overflow-hidden">
             <div
@@ -242,14 +237,17 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
             />
           </div>
           <p className="font-serif italic text-[11px] text-[#f3e5ab] tracking-wider">
-            Prana Pravaha • Entering Sanctum ({progress}%)
+            Click anywhere on video to enter ({progress}%)
           </p>
         </div>
 
         {/* Enter Sanctuary Button */}
         <button
           type="button"
-          onClick={handleFinish}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleFinish();
+          }}
           className="group flex items-center gap-2.5 text-xs font-semibold uppercase tracking-wider text-[#1a1205] bg-gradient-to-r from-[#e6ca65] via-[#f3e5ab] to-[#e6ca65] hover:brightness-105 active:scale-98 px-6 py-2.5 rounded-full transition-all shadow-lift border border-[#d4af37]/60 cursor-pointer"
           aria-label="Enter Sanctuary"
         >
