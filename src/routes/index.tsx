@@ -94,7 +94,7 @@ export function HomePage() {
         </div>
       )}
 
-      {/* IMMERSIVE FULL-SCREEN ENVIRONMENTAL HERO (FULL SCREEN BACKGROUND, ZERO CORNER CROPPING) */}
+      {/* IMMERSIVE FULL-SCREEN ENVIRONMENTAL HERO (ZERO WHITISH HUE, OG COLORS SHINE) */}
       <section className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden py-16 lg:py-24">
         {/* Full-Screen 3D Atmospheric Video Layer Spanning ENTIRE Screen */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
@@ -104,36 +104,35 @@ export function HomePage() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover object-center scale-100 filter contrast-[1.04]"
+            className="w-full h-full object-cover object-center scale-100 filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
           />
-          {/* Subtle Ayurvedic Scrim: Ensures typography is crystal-clear while video glows across entire viewport */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/40 lg:via-background/75" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
-          <div className="absolute top-1/4 left-1/3 size-96 rounded-full bg-accent/10 blur-3xl" />
+          {/* Transparent Dark Scrim: ZERO whitish milky fog, letting the lush greens & rich golds shine */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35 pointer-events-none" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full">
           <div className="max-w-2xl lg:max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-secondary/80 backdrop-blur-md px-4 py-1.5 text-xs text-primary font-medium shadow-xs">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-4 py-1.5 text-xs text-[#e6ca65] font-medium shadow-xs">
               <Leaf className="size-3.5 text-accent" />
               <span>{HOSPITAL_DATA.tradition} • Kerala & Rishikesh</span>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.06] text-balance-display">
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.06] text-balance-display">
               Root-Cause Healing, <br />
-              <span className="font-serif italic font-normal text-primary">
+              <span className="font-serif italic font-normal text-[#e6ca65]">
                 Sacred Vedic Precision.
               </span>
             </h1>
 
-            <p className="font-serif italic text-lg sm:text-2xl text-primary/90 max-w-xl leading-relaxed">
+            <p className="font-serif italic text-lg sm:text-2xl text-[#f3e5ab] max-w-xl leading-relaxed">
               “Swasthyasya Swasthya Rakshanam, Aturasya Vikara Prashamanam Ch”
-              <span className="block text-xs font-sans not-italic text-muted-foreground mt-1.5">
+              <span className="block text-xs font-sans not-italic text-white/80 mt-1.5">
                 Preserve the vitality of the healthy, and eradicate the roots of disease in the afflicted.
               </span>
             </p>
 
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl">
               Experience classical hospital healthcare: authentic 5-phase Panchakarma bio-purification, in-house pharmacopoeia prepared in bronze urulis, and zero-paper digital case records.
             </p>
 
@@ -144,7 +143,7 @@ export function HomePage() {
                   <Calendar className="size-4 text-accent" /> Book a Consultation
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-primary/30 bg-background/70 backdrop-blur-sm hover:bg-background">
+              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-white/30 text-white bg-black/35 backdrop-blur-md hover:bg-black/55 hover:text-white">
                 <Link to="/panchakarma">Explore Panchakarma Therapies</Link>
               </Button>
             </div>
@@ -153,38 +152,38 @@ export function HomePage() {
             <div className="pt-1">
               <Link
                 to="/auth"
-                className="text-xs text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 font-medium"
+                className="text-xs text-white/80 hover:text-[#e6ca65] transition-colors inline-flex items-center gap-1 font-medium"
               >
                 <span>Already an admitted patient or follow-up visitor?</span>
-                <span className="text-primary underline underline-offset-4">Sign In to Digital Health Portal →</span>
+                <span className="text-[#e6ca65] underline underline-offset-4">Sign In to Digital Health Portal →</span>
               </Link>
             </div>
           </div>
 
           {/* Floating Organic Quick-Stats Ribbon */}
-          <div className="mt-14 leaf-card bg-card/85 backdrop-blur-md p-6 sm:p-8 border-primary/20 shadow-lift">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-border">
+          <div className="mt-14 leaf-card bg-black/60 backdrop-blur-xl p-6 sm:p-8 border-white/15 shadow-lift">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-white/15">
               <div className="space-y-1">
-                <p className="font-display text-3xl sm:text-4xl font-bold text-primary">40+ Years</p>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+                <p className="font-display text-3xl sm:text-4xl font-bold text-[#e6ca65]">40+ Years</p>
+                <p className="text-xs text-white/75 uppercase tracking-wider font-medium">
                   Vaidya Heritage & Lineage
                 </p>
               </div>
               <div className="space-y-1 pt-4 md:pt-0">
-                <p className="font-display text-3xl sm:text-4xl font-bold text-primary">50,000+</p>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+                <p className="font-display text-3xl sm:text-4xl font-bold text-[#e6ca65]">50,000+</p>
+                <p className="text-xs text-white/75 uppercase tracking-wider font-medium">
                   Patients Restored
                 </p>
               </div>
               <div className="space-y-1 pt-4 md:pt-0">
                 <p className="font-display text-3xl sm:text-4xl font-bold text-accent">100% Pure</p>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+                <p className="text-xs text-white/75 uppercase tracking-wider font-medium">
                   In-House GMP Pharmacy
                 </p>
               </div>
               <div className="space-y-1 pt-4 md:pt-0">
-                <p className="font-display text-3xl sm:text-4xl font-bold text-foreground">18 Vaidyas</p>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">
+                <p className="font-display text-3xl sm:text-4xl font-bold text-white">18 Vaidyas</p>
+                <p className="text-xs text-white/75 uppercase tracking-wider font-medium">
                   Resident Specialists
                 </p>
               </div>

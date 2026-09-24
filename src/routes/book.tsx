@@ -332,11 +332,11 @@ function BookAppointmentPage() {
             <img
               src="/media/appointment.jpg"
               alt="Ayurvedic Physician Consultation Desk and Palm Leaf Diagnostic Suite"
-              className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.92] contrast-[1.05]"
+              className="w-full h-full object-cover object-right lg:object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
             />
-            {/* Subtle Warm Vignette Gradients */}
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+            {/* Transparent Dark Scrim: ZERO whitish hue, letting rich diagnostic desk & copper urulis glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35 pointer-events-none" />
           </div>
 
           {/* Ambient Botanical Glows */}
@@ -349,34 +349,34 @@ function BookAppointmentPage() {
               <div className="flex flex-wrap items-center gap-2">
                 <Badge
                   variant="outline"
-                  className="rounded-full border-primary/40 bg-background/80 backdrop-blur-md text-primary px-3.5 py-1 text-xs"
+                  className="rounded-full border-white/20 bg-black/40 backdrop-blur-md text-[#e6ca65] px-3.5 py-1 text-xs"
                 >
                   <Sparkles className="size-3 text-accent mr-1.5" /> Vaidya OPD & Telehealth Scheduling
                 </Badge>
-                <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
+                <Badge className="bg-[#d4af37]/25 text-[#f3e5ab] border border-[#d4af37]/35 rounded-full text-xs backdrop-blur-md">
                   Direct Lineage Vaidyas
                 </Badge>
               </div>
 
-              <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-foreground leading-[1.08]">
+              <h1 className="font-display text-4xl sm:text-6xl font-bold tracking-tight text-white leading-[1.08]">
                 Schedule an <br />
-                <span className="italic text-primary font-serif">Ayurvedic Consultation</span>
+                <span className="italic text-[#e6ca65] font-serif">Ayurvedic Consultation</span>
               </h1>
 
-              <p className="font-serif italic text-base sm:text-xl text-primary/90 leading-snug">
+              <p className="font-serif italic text-base sm:text-xl text-[#f3e5ab] leading-snug">
                 “Rogamadau Pareeksheta Tato-anantaram Aushadham.”
               </p>
-              <p className="text-xs text-muted-foreground italic">
+              <p className="text-xs text-white/80 italic">
                 — Charaka Samhita: First thoroughly examine the patient and disease; only then prescribe the medicine.
               </p>
 
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <p className="text-sm sm:text-base text-white/90 leading-relaxed">
                 Whether you visit our hospital sanctuary in person for traditional eight-fold diagnosis (*Ashtavidha Pariksha*) or connect from abroad via high-definition Telehealth, every treatment is customized to your unique Dosha constitution.
               </p>
 
               <div className="flex flex-wrap gap-4 text-xs pt-1">
-                <span className="flex items-center gap-1.5 text-foreground/90 font-medium bg-background/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60">
-                  <CheckCircle2 className="size-4 text-primary" /> Comprehensive Pulse Reading
+                <span className="flex items-center gap-1.5 text-white font-medium bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/15">
+                  <CheckCircle2 className="size-4 text-[#e6ca65]" /> Comprehensive Pulse Reading
                 </span>
                 <span className="flex items-center gap-1.5 text-foreground/90 font-medium bg-background/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-border/60">
                   <CheckCircle2 className="size-4 text-accent" /> Customized Herbal Rx

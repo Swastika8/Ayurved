@@ -94,58 +94,58 @@ export function BlogPage() {
             <img
               src="/media/blog-animation.jpg"
               alt="Ayurvedic Physician Study Desk and Palm Leaf Manuscript"
-              className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.88] contrast-[1.05]"
+              className="w-full h-full object-cover object-right lg:object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
           </div>
 
           <div className="relative z-10 max-w-2xl space-y-6 text-left">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge className="bg-primary/20 text-primary border-primary/30 text-xs px-3 py-1 backdrop-blur-md">
+              <Badge className="bg-primary/40 text-[#f3e5ab] border-primary/40 text-xs px-3 py-1 backdrop-blur-md">
                 {featuredStory.category}
               </Badge>
-              <span className="text-xs text-muted-foreground flex items-center gap-1 font-mono">
-                <Clock className="size-3 text-accent" /> {featuredStory.readTime}
+              <span className="text-xs text-white/80 flex items-center gap-1 font-mono">
+                <Clock className="size-3 text-[#e6ca65]" /> {featuredStory.readTime}
               </span>
-              <span className="text-xs text-muted-foreground font-mono">• {featuredStory.date}</span>
-              <Badge variant="outline" className="border-accent/40 text-accent font-medium text-[10px] bg-background/80 backdrop-blur-sm">
+              <span className="text-xs text-white/70 font-mono">• {featuredStory.date}</span>
+              <Badge variant="outline" className="border-[#e6ca65]/50 text-[#e6ca65] font-medium text-[10px] bg-black/40 backdrop-blur-sm">
                 Featured Monograph
               </Badge>
             </div>
 
             <h2
               onClick={() => setActiveArticle(featuredStory)}
-              className="font-display text-3xl sm:text-5xl font-bold text-foreground hover:text-primary transition-colors cursor-pointer leading-[1.15]"
+              className="font-display text-3xl sm:text-5xl font-bold text-white hover:text-[#e6ca65] transition-colors cursor-pointer leading-[1.15] drop-shadow-md"
             >
               {featuredStory.title}
             </h2>
 
             {featuredStory.sanskritQuote && (
-              <p className="font-serif italic text-base sm:text-lg text-primary/90 leading-relaxed">
+              <p className="font-serif italic text-base sm:text-lg text-[#f3e5ab] leading-relaxed">
                 “{featuredStory.sanskritQuote}”
               </p>
             )}
 
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-base text-white/90 leading-relaxed">
               {featuredStory.snippet}
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="text-xs font-semibold text-foreground/80">Key Botanical Formulations:</span>
+              <span className="text-xs font-semibold text-white/80">Key Botanical Formulations:</span>
               {featuredStory.keyHerbs?.map((herb) => (
                 <span
                   key={herb}
-                  className="text-xs bg-secondary/80 text-foreground px-3 py-1 rounded-full border border-border/80 font-medium backdrop-blur-sm"
+                  className="text-xs bg-black/40 text-[#f3e5ab] px-3 py-1 rounded-full border border-white/20 font-medium backdrop-blur-sm"
                 >
                   {herb}
                 </span>
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-border/70">
-              <div className="flex items-center gap-2 text-xs font-medium text-foreground">
-                <UserCheck className="size-4 text-accent" />
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-white/20">
+              <div className="flex items-center gap-2 text-xs font-medium text-white/90">
+                <UserCheck className="size-4 text-[#e6ca65]" />
                 <span>{featuredStory.author}</span>
               </div>
               <Button

@@ -172,9 +172,9 @@ export function GalleryPage() {
               <img
                 src={activePhoto.image}
                 alt={activePhoto.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover filter saturate-[1.12] contrast-[1.08]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
             </div>
 
             <div className="p-8 sm:p-10 space-y-4">

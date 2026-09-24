@@ -53,36 +53,36 @@ function DiseaseLibrary() {
             <img
               src="/media/disease_lookup.jpg"
               alt="3D Ayurvedic Disease and Anatomy Lookup"
-              className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.88] contrast-[1.05]"
+              className="w-full h-full object-cover object-right lg:object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
           </div>
 
           <div className="relative z-10 max-w-2xl space-y-4 text-left">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="leaf-pill px-3.5 py-1 text-xs text-primary border-primary/20 bg-background/80 backdrop-blur-md">
-                <Sparkles className="size-3 mr-1 text-accent" />
+              <Badge variant="outline" className="leaf-pill px-3.5 py-1 text-xs text-[#f3e5ab] border-white/20 bg-black/40 backdrop-blur-md">
+                <Sparkles className="size-3 mr-1 text-[#e6ca65]" />
                 Roganidana & Samprapti Explorer
               </Badge>
-              <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
+              <Badge className="bg-primary/40 text-[#f3e5ab] border-primary/40 rounded-full text-xs backdrop-blur-md">
                 Classical Pathology
               </Badge>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance-display leading-[1.15]">
-              Ayurvedic <span className="italic text-primary font-serif">Disease Library</span> & Roganidana
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white text-balance-display leading-[1.15] drop-shadow-md">
+              Ayurvedic <span className="italic text-[#e6ca65] font-serif">Disease Library</span> & Roganidana
             </h1>
 
-            <p className="font-serif italic text-lg sm:text-xl text-primary/90">
+            <p className="font-serif italic text-lg sm:text-xl text-[#f3e5ab]">
               “Nidane Poorvaroopani Roopaanyupashayastatha, <br className="hidden sm:inline" />
               Sampraptischaiva Vigneyo Roganam Bodhaka Gano.”
             </p>
-            <p className="text-xs font-sans text-muted-foreground italic">
+            <p className="text-xs font-sans text-white/80 italic">
               — The 5 Diagnostic Pillars (Pancha Nidana): Etiology, Premonitory Signs, Manifest Symptoms, Exploratory Therapy, and Pathogenesis.
             </p>
 
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl">
               Ayurveda classifies disease not as a static label, but as a living sequence of metabolic disequilibrium (*Samprapti*) beginning in the digestive tract (*Agni*) and migrating through the subtle tissue channels (*Srotas*).
             </p>
 
@@ -90,7 +90,7 @@ function DiseaseLibrary() {
               <Button asChild size="lg" className="rounded-full px-8 shadow-lift">
                 <Link to="/book">Consult a Diagnostician</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-6 bg-background/80 backdrop-blur-sm">
+              <Button asChild variant="outline" size="lg" className="rounded-full px-6 bg-black/50 border-white/25 text-white hover:bg-black/70 backdrop-blur-sm">
                 <a href="#quick-lookup">Interactive Symptom Lookup</a>
               </Button>
             </div>

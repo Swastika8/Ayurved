@@ -102,14 +102,14 @@ export function ContactPage() {
           <img
             src="/media/contact-architecture.jpg"
             alt="Aarogya Ayurvedic Sanctuary Riverfront Architecture"
-            className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.92] contrast-[1.05]"
+            className="w-full h-full object-cover object-right lg:object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
           />
-          {/* Subtle Warm Vignette Gradients */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+          {/* Transparent Dark Scrim: ZERO whitish hue, letting rich architectural timber & river tones glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35 pointer-events-none" />
         </div>
 
-        {/* Ambient Warm Golden & Herbal Glows */}
+        {/* Ambient Warm Golden Glows */}
         <div className="absolute top-1/4 left-10 w-[500px] h-[500px] rounded-full bg-accent/15 blur-[140px] pointer-events-none z-0" />
         <div className="absolute bottom-10 left-1/3 w-[450px] h-[450px] rounded-full bg-primary/15 blur-[130px] pointer-events-none z-0" />
 
@@ -119,33 +119,33 @@ export function ContactPage() {
             <div className="flex flex-wrap items-center gap-2">
               <Badge
                 variant="outline"
-                className="rounded-full border-primary/40 bg-background/80 backdrop-blur-md text-primary px-3.5 py-1 text-xs"
+                className="rounded-full border-white/20 bg-black/40 backdrop-blur-md text-[#e6ca65] px-3.5 py-1 text-xs"
               >
                 <Sparkles className="size-3.5 text-accent mr-1.5" /> Healing Sanctuaries & Triage
               </Badge>
-              <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
+              <Badge className="bg-[#d4af37]/25 text-[#f3e5ab] border border-[#d4af37]/35 rounded-full text-xs backdrop-blur-md">
                 24/7 Inpatient Care
               </Badge>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08]">
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08]">
               Connect with Our <br />
-              <span className="italic text-primary font-serif">Senior Vaidyas</span>
+              <span className="italic text-[#e6ca65] font-serif">Senior Vaidyas</span>
             </h1>
 
-            <p className="font-serif italic text-lg sm:text-2xl text-primary/90 leading-snug">
+            <p className="font-serif italic text-lg sm:text-2xl text-[#f3e5ab] leading-snug">
               “Direct communication with dedicated Vaidyas—no call centers or automated triage bots.”
             </p>
 
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed">
               Whether you are planning a 21-day residential Panchakarma cleanse at our riverfront estate or seeking an initial outpatient pulse diagnosis, our admissions team is here to assist.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-6">
-              <div className="flex items-center gap-2 text-sm text-foreground font-mono">
-                <Phone className="size-4 text-primary" /> {HOSPITAL_DATA.helpline}
+              <div className="flex items-center gap-2 text-sm text-[#e6ca65] font-mono font-medium">
+                <Phone className="size-4 text-accent" /> {HOSPITAL_DATA.helpline}
               </div>
-              <div className="flex items-center gap-2 text-sm text-foreground font-mono">
+              <div className="flex items-center gap-2 text-sm text-white/90 font-mono">
                 <Mail className="size-4 text-accent" /> {HOSPITAL_DATA.mainEmail}
               </div>
             </div>

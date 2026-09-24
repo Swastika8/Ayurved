@@ -57,14 +57,14 @@ export function WellnessPage() {
           <img
             src="/media/wellness-scene.jpg"
             alt="Ayurvedic Sanctuary Living Environment"
-            className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.92] contrast-[1.05]"
+            className="w-full h-full object-cover object-right lg:object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
           />
-          {/* Subtle Ayurvedic Lighting Vignette & Smooth Gradient Wash */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/20 lg:to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+          {/* Transparent Dark Scrim: ZERO whitish hue, letting lush sanctuary greens & warm golds glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35 pointer-events-none" />
         </div>
 
-        {/* Ambient Warm Golden & Herbal Sage Glows */}
+        {/* Ambient Warm Golden Glows */}
         <div className="absolute top-1/4 left-10 w-[500px] h-[500px] rounded-full bg-accent/15 blur-[140px] pointer-events-none z-0" />
         <div className="absolute bottom-10 left-1/3 w-[450px] h-[450px] rounded-full bg-primary/15 blur-[130px] pointer-events-none z-0" />
 
@@ -74,36 +74,36 @@ export function WellnessPage() {
             <div className="flex flex-wrap items-center gap-2">
               <Badge
                 variant="outline"
-                className="rounded-full border-primary/40 bg-background/80 backdrop-blur-md text-primary px-3.5 py-1 text-xs"
+                className="rounded-full border-white/20 bg-black/40 backdrop-blur-md text-[#e6ca65] px-3.5 py-1 text-xs"
               >
                 <Sparkles className="size-3.5 text-accent mr-1.5" /> Living Ayurvedic Sanctuary Philosophy
               </Badge>
-              <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
+              <Badge className="bg-[#d4af37]/25 text-[#f3e5ab] border border-[#d4af37]/35 rounded-full text-xs backdrop-blur-md">
                 Dinacharya & Ritucharya
               </Badge>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08]">
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08]">
               The Living Rhythm of <br />
-              <span className="italic text-primary font-serif">Holistic Wellness</span>
+              <span className="italic text-[#e6ca65] font-serif">Holistic Wellness</span>
             </h1>
 
-            <p className="font-serif italic text-lg sm:text-2xl text-primary/90 leading-snug">
+            <p className="font-serif italic text-lg sm:text-2xl text-[#f3e5ab] leading-snug">
               “When diet is wrong, medicine is of no use. <br className="hidden sm:inline" />
               When diet is correct, medicine is of no need.”
             </p>
 
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Wellness in Ayurveda is not a punitive temporary cleanse. It is the exquisite daily synchronization between your inner metabolic fire (<em className="text-foreground">Agni</em>) and the planetary circadian clock (<em className="text-foreground">Brahma Muhurta</em> through <em className="text-foreground">Nidra</em>).
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+              Wellness in Ayurveda is not a punitive temporary cleanse. It is the exquisite daily synchronization between your inner metabolic fire (<em className="text-white">Agni</em>) and the planetary circadian clock (<em className="text-white">Brahma Muhurta</em> through <em className="text-white">Nidra</em>).
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                 <Link to="/book">
                   <Calendar className="size-4" /> Book Lifestyle Assessment
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-7 bg-background/70 backdrop-blur-sm border-border">
+              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-white/30 text-white bg-black/35 backdrop-blur-md hover:bg-black/55 hover:text-white">
                 <Link to="/contact">Explore Sanctuary Stays</Link>
               </Button>
             </div>

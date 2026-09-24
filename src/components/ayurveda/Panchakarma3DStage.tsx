@@ -96,7 +96,7 @@ export function Panchakarma3DStage() {
               <img
                 src={activeTherapy.image}
                 alt={activeTherapy.name}
-                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                className="w-full h-full object-cover filter saturate-[1.12] contrast-[1.06] transition-transform duration-700 hover:scale-105"
               />
 
               {/* OVERLAID ANIMATED 3D PHYSICS LAYERS */}

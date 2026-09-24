@@ -86,10 +86,11 @@ export function PanchakarmaPage() {
             <img
               src="/media/panchakarma-main.jpg"
               alt="Panchakarma Sacred Biological Diagram"
-              className="w-full h-full object-cover object-center filter saturate-[1.05] contrast-[1.02] opacity-75 dark:opacity-50"
+              className="w-full h-full object-cover object-center filter saturate-[1.18] contrast-[1.08] brightness-[0.98] opacity-100"
             />
-            <div className="absolute inset-0 bg-radial from-transparent via-background/60 to-background" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
+            {/* Transparent dark vignette: ZERO whitish hue, letting rich sacred mandala gold & earthy tones shine */}
+            <div className="absolute inset-0 bg-radial from-transparent via-black/25 to-black/60 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/40 pointer-events-none" />
           </div>
 
             {/* Interactive Anatomical Hotspots Overlaid on the Mandala */}
@@ -102,12 +103,12 @@ export function PanchakarmaPage() {
               >
                 <div className="relative flex items-center justify-center">
                   <div className="size-10 rounded-full bg-accent/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-background/90 border-2 border-accent text-accent shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
+                  <div className="size-11 rounded-full bg-black/80 border-2 border-accent text-accent shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
                     <Wind className="size-5" />
                   </div>
                   {/* Floating Pill Label */}
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-background/95 border border-accent/30 text-foreground text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-accent font-semibold">Nasya:</strong> Cranial & Sinus Flush
+                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-accent/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
+                    <strong className="text-[#e6ca65] font-semibold">Nasya:</strong> Cranial & Sinus Flush
                   </div>
                 </div>
               </div>
@@ -120,11 +121,11 @@ export function PanchakarmaPage() {
               >
                 <div className="relative flex items-center justify-center">
                   <div className="size-10 rounded-full bg-primary/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-background/90 border-2 border-primary text-primary shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
+                  <div className="size-11 rounded-full bg-black/80 border-2 border-emerald-400 text-emerald-400 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
                     <Droplets className="size-5" />
                   </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-background/95 border border-primary/30 text-foreground text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-primary font-semibold">Vamana:</strong> Kapha Emesis
+                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-emerald-500/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
+                    <strong className="text-emerald-400 font-semibold">Vamana:</strong> Kapha Emesis
                   </div>
                 </div>
               </div>
@@ -137,11 +138,11 @@ export function PanchakarmaPage() {
               >
                 <div className="relative flex items-center justify-center">
                   <div className="size-10 rounded-full bg-amber-500/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-background/90 border-2 border-amber-600 text-amber-600 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
+                  <div className="size-11 rounded-full bg-black/80 border-2 border-amber-400 text-amber-400 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
                     <Flame className="size-5" />
                   </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-background/95 border border-amber-500/30 text-foreground text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-amber-600 font-semibold">Virechana:</strong> Pitta & Liver Purge
+                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-amber-500/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
+                    <strong className="text-amber-400 font-semibold">Virechana:</strong> Pitta & Liver Purge
                   </div>
                 </div>
               </div>
@@ -154,11 +155,11 @@ export function PanchakarmaPage() {
               >
                 <div className="relative flex items-center justify-center">
                   <div className="size-10 rounded-full bg-primary/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-background/90 border-2 border-primary text-primary shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
+                  <div className="size-11 rounded-full bg-black/80 border-2 border-primary text-primary shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
                     <Layers className="size-5" />
                   </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-background/95 border border-primary/30 text-foreground text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-primary font-semibold">Basti:</strong> Ardha Chikitsa (Enema)
+                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-primary/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
+                    <strong className="text-[#f3e5ab] font-semibold">Basti:</strong> Ardha Chikitsa (Enema)
                   </div>
                 </div>
               </div>
@@ -171,11 +172,11 @@ export function PanchakarmaPage() {
               >
                 <div className="relative flex items-center justify-center">
                   <div className="size-10 rounded-full bg-rose-500/30 animate-ping absolute" />
-                  <div className="size-11 rounded-full bg-background/90 border-2 border-rose-600 text-rose-600 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
+                  <div className="size-11 rounded-full bg-black/80 border-2 border-rose-400 text-rose-400 shadow-lift flex items-center justify-center backdrop-blur-md transition-transform group-hover:scale-125">
                     <Activity className="size-5" />
                   </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-background/95 border border-rose-500/30 text-foreground text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
-                    <strong className="text-rose-600 font-semibold">Raktamokshana:</strong> Leech Therapy
+                  <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-black/85 border border-rose-500/40 text-white text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
+                    <strong className="text-rose-400 font-semibold">Raktamokshana:</strong> Leech Therapy
                 </div>
               </div>
             </div>

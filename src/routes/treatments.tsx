@@ -55,62 +55,63 @@ export function TreatmentsPage() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover object-center filter contrast-[1.04]"
+            className="w-full h-full object-cover object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/40 lg:via-background/75" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+          {/* Transparent Dark Scrim: ZERO whitish milky fog, letting the amber medicated oils & bronze glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/35 pointer-events-none" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full">
           <div className="max-w-2xl lg:max-w-3xl space-y-6 text-left">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-3.5 py-1 text-xs bg-secondary/60 backdrop-blur-md">
+              <Badge variant="outline" className="rounded-full border-white/20 text-[#e6ca65] px-3.5 py-1 text-xs bg-black/40 backdrop-blur-md">
                 <Sparkles className="size-3.5 text-accent mr-1.5" /> Authentic Shirodhara & Droni Chikitsa
               </Badge>
-              <Badge className="bg-accent/15 text-accent-foreground border-accent/20 rounded-full text-xs">
+              <Badge className="bg-[#d4af37]/25 text-[#f3e5ab] border border-[#d4af37]/35 rounded-full text-xs backdrop-blur-md">
                 Lineage Formulations
               </Badge>
             </div>
 
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.08] text-balance-display">
+            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.08] text-balance-display">
               Classical Ayurvedic <br />
-              <span className="font-serif italic font-normal text-primary">Therapies</span> & Droni Rituals
+              <span className="font-serif italic font-normal text-[#e6ca65]">Therapies</span> & Droni Rituals
             </h1>
 
-            <p className="font-serif italic text-lg sm:text-2xl text-primary/90 leading-relaxed max-w-xl">
+            <p className="font-serif italic text-lg sm:text-2xl text-[#f3e5ab] leading-relaxed max-w-xl">
               “Yatha Ksheeram Samasthepi Dehe Vyapi Pravartate, <br className="hidden sm:inline" />
               Tatha Tailam Guneh Srotamsyanupravishati.”
-              <span className="block text-xs font-sans not-italic text-muted-foreground mt-1.5">
+              <span className="block text-xs font-sans not-italic text-white/80 mt-1.5">
                 — Just as pure essence permeates every cell, medicated warm oils permeate the microscopic tissue channels (Srotas).
               </span>
             </p>
 
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base text-white/90 leading-relaxed max-w-xl">
               Ayurveda never treats an isolated symptom. Every oil formulation, massage stroke velocity, and thermal steam bath is calibrated strictly to your constitutional Dosha disequilibrium — Vata, Pitta, or Kapha.
             </p>
 
             <div className="pt-2 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-full px-8 shadow-lift bg-primary hover:bg-primary/90">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                 <Link to="/book">Consult a Vaidya for Prescription</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-7 bg-background/60 backdrop-blur-sm">
+              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-white/30 text-white bg-black/35 backdrop-blur-md hover:bg-black/55 hover:text-white">
                 <a href="#dosha-catalog">Browse Dosha Catalog</a>
               </Button>
             </div>
 
             {/* Micro Feature Indicators */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border/70 max-w-md">
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/20 max-w-md">
               <div>
-                <span className="font-display text-2xl font-bold text-foreground block">100%</span>
-                <span className="text-xs text-muted-foreground">Wild-Harvested Herbs</span>
+                <span className="font-display text-2xl font-bold text-white block">100%</span>
+                <span className="text-xs text-white/75">Wild-Harvested Herbs</span>
               </div>
               <div>
-                <span className="font-display text-2xl font-bold text-primary block">Single-Wood</span>
-                <span className="text-xs text-muted-foreground">Teak Droni Beds</span>
+                <span className="font-display text-2xl font-bold text-[#e6ca65] block">Single-Wood</span>
+                <span className="text-xs text-white/75">Teak Droni Beds</span>
               </div>
               <div>
                 <span className="font-display text-2xl font-bold text-accent block">Kerala</span>
-                <span className="text-xs text-muted-foreground">Tandem Therapists</span>
+                <span className="text-xs text-white/75">Tandem Therapists</span>
               </div>
             </div>
           </div>

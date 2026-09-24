@@ -152,10 +152,10 @@ function AuthPage() {
           <img
             src="/media/login-page.jpg"
             alt="Aarogya Sanctuary"
-            className="w-full h-full object-cover object-center filter brightness-[0.82] contrast-[1.06]"
+            className="w-full h-full object-cover object-center filter saturate-[1.15] contrast-[1.08] brightness-[0.92]"
           />
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-black/40 to-background/60" />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/60 pointer-events-none" />
         </div>
 
         {/* Centered Glassmorphic Form Card */}
