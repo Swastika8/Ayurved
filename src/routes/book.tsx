@@ -97,11 +97,18 @@ function BookAppointmentPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  const isFallbackDoctor = (id?: string) => {
+    return Boolean(id && (id.startsWith("doctor-") || FALLBACK_DOCTORS.some((d) => d.id === id)));
+  };
+
   const { data: remoteDoctors, isLoading: loadingDoctors } = useDoctors();
   const doctors = useMemo(() => {
+    if (loadingDoctors) return [];
     if (remoteDoctors && remoteDoctors.length > 0) return remoteDoctors;
-    return FALLBACK_DOCTORS;
-  }, [remoteDoctors]);
+    // Offer fallback doctors only in guest/demo mode after queries settle without data
+    if (!user) return FALLBACK_DOCTORS;
+    return [];
+  }, [loadingDoctors, remoteDoctors, user]);
 
   const [step, setStep] = useState<Step>("doctor");
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
@@ -142,25 +149,30 @@ function BookAppointmentPage() {
   }, [user, patientName]);
 
   // Fetch doctor availability
-  const { data: remoteAvailability } = useDoctorAvailability(selectedDoctor?.id);
+  const { data: remoteAvailability, isLoading: loadingAvailability } = useDoctorAvailability(selectedDoctor?.id);
 
-  // Fallback availability if remote availability is empty
+  // Fallback availability only in guest/demo mode after queries settle without data
   const effectiveAvailability = useMemo(() => {
+    if (loadingAvailability) return [];
     if (remoteAvailability && remoteAvailability.length > 0) {
       return remoteAvailability;
     }
-    // Default: Mon through Sat (1 to 6) 09:00 to 17:00
-    return [1, 2, 3, 4, 5, 6].map((w) => ({
-      id: `fallback-avail-${w}`,
-      doctor_id: selectedDoctor?.id || "",
-      weekday: w,
-      start_time: "09:00:00",
-      end_time: "17:00:00",
-      slot_minutes: 30,
-      is_active: true,
-      created_at: new Date().toISOString(),
-    }));
-  }, [remoteAvailability, selectedDoctor]);
+    // Only offer fallback schedule in guest/demo mode for fallback doctors
+    if (!user && selectedDoctor && isFallbackDoctor(selectedDoctor.id)) {
+      return [1, 2, 3, 4, 5, 6].map((w) => ({
+        id: `fallback-avail-${w}`,
+        doctor_id: selectedDoctor.id,
+        weekday: w,
+        start_time: "09:00:00",
+        end_time: "17:00:00",
+        slot_minutes: 30,
+        is_active: true,
+        created_at: new Date().toISOString(),
+      }));
+    }
+    // Real doctors with no configured schedule receive no fallback slots
+    return [];
+  }, [loadingAvailability, remoteAvailability, selectedDoctor, user]);
 
   // Fetch booked slots for the selected date & doctor
   const { data: bookedSlots } = useDoctorBookedSlots(selectedDoctor?.id, selectedDate);
@@ -273,11 +285,16 @@ function BookAppointmentPage() {
     }
     if (!selectedDoctor || !selectedDate || !selectedSlot) return;
 
+    // Detect fallback doctor IDs and block database persistence
+    if (isFallbackDoctor(selectedDoctor.id)) {
+      toast.error("This is a demo physician profile and cannot be booked in the live database. Please select a registered hospital Vaidya.");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const fee = Number(selectedDoctor.consultation_fee) || 750;
       const receiptNum = `RCP-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
-      let appointmentId = `appt-${Date.now()}`;
 
       // 1. Record appointment in database
       const { data: appointmentData, error: apptError } = await supabase
@@ -294,33 +311,47 @@ function BookAppointmentPage() {
         .select()
         .single();
 
-      if (!apptError && appointmentData) {
-        appointmentId = appointmentData.id;
+      if (apptError || !appointmentData) {
+        throw new Error(apptError?.message || "Failed to schedule appointment in hospital database.");
+      }
 
-        // Record payment
-        await supabase.from("payments").insert({
-          appointment_id: appointmentData.id,
-          patient_id: user.id,
-          amount: fee,
-          currency: "INR",
-          status: "completed",
-          provider: `simulated_${paymentMethod}`,
-          provider_reference: `TXN-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
-          receipt_number: receiptNum,
-          paid_at: new Date().toISOString(),
-        });
+      const appointmentId = appointmentData.id;
 
-        // In-app notification
+      // 2. Record payment in database
+      const { error: paymentError } = await supabase.from("payments").insert({
+        appointment_id: appointmentData.id,
+        patient_id: user.id,
+        amount: fee,
+        currency: "INR",
+        status: "completed",
+        provider: `simulated_${paymentMethod}`,
+        provider_reference: `TXN-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+        receipt_number: receiptNum,
+        paid_at: new Date().toISOString(),
+      });
+
+      if (paymentError) {
+        throw new Error(paymentError.message || "Failed to log payment transaction in database.");
+      }
+
+      // In-app notification (non-blocking)
+      try {
         await createInAppNotification({
           userId: user.id,
           appointmentId: appointmentData.id,
           title: `Consultation Confirmed: ${selectedDoctor.full_name}`,
           body: `Your appointment is scheduled for ${selectedDate} at ${selectedSlot}. Please arrive 15 minutes before your slot.`,
         });
+      } catch {
+        // non-blocking
+      }
 
-        // Update phone on profile if given
-        if (patientPhone) {
+      // Update phone on profile if given (non-blocking)
+      if (patientPhone) {
+        try {
           await supabase.from("profiles").update({ phone: patientPhone }).eq("id", user.id);
+        } catch {
+          // non-blocking
         }
       }
 
@@ -856,7 +887,7 @@ function BookAppointmentPage() {
                         paymentMethod === "card" ? "border-primary bg-primary/10 ring-1 ring-primary" : "border-border hover:bg-muted/40"
                       }`}
                     >
-                      <RadioGroupItem value="pay-card" id="pay-card" className="sr-only" />
+                      <RadioGroupItem value="card" id="pay-card" className="sr-only" />
                       <CreditCard className="size-6 text-primary" />
                       <span className="text-xs font-bold">Debit / Credit Card</span>
                       <span className="text-[10px] text-muted-foreground">Visa, RuPay, MC</span>
@@ -868,7 +899,7 @@ function BookAppointmentPage() {
                         paymentMethod === "netbanking" ? "border-primary bg-primary/10 ring-1 ring-primary" : "border-border hover:bg-muted/40"
                       }`}
                     >
-                      <RadioGroupItem value="pay-nb" id="pay-nb" className="sr-only" />
+                      <RadioGroupItem value="netbanking" id="pay-nb" className="sr-only" />
                       <Building2 className="size-6 text-primary" />
                       <span className="text-xs font-bold">Net Banking</span>
                       <span className="text-[10px] text-muted-foreground">All Major Indian Banks</span>
@@ -921,14 +952,15 @@ function BookAppointmentPage() {
 
               <div>
                 <Badge variant="secondary" className="leaf-pill px-4 py-1 text-xs text-primary mb-2">
-                  Slot Confirmed & Logged
+                  {user ? "Slot Confirmed & Logged" : "Demo Reservation Preview"}
                 </Badge>
                 <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
-                  Your Consultation is Scheduled!
+                  {user ? "Your Consultation is Scheduled!" : "Simulated Booking Preview"}
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                  A confirmation SMS has been dispatched. Your official hospital receipt is ready below, and your
-                  paperless clinical chart is created for {confirmedBooking.doctorName}.
+                  {user
+                    ? `A confirmation SMS has been dispatched. Your official hospital receipt is ready below, and your paperless clinical chart is created for ${confirmedBooking.doctorName}.`
+                    : `This simulated demonstration preview illustrates the booking flow for ${confirmedBooking.doctorName}. No live appointment, SMS dispatch, or medical chart has been persisted to the hospital database. Please sign in to reserve verified clinical appointments.`}
                 </p>
               </div>
 
@@ -980,11 +1012,19 @@ function BookAppointmentPage() {
                   <Download className="size-4" /> Download Official Receipt (PDF)
                 </Button>
 
-                <Button asChild size="lg" className="leaf-pill bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
-                  <Link to="/dashboard">
-                    Go to Patient Dashboard <ArrowRight className="size-4" />
-                  </Link>
-                </Button>
+                {user ? (
+                  <Button asChild size="lg" className="leaf-pill bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
+                    <Link to="/dashboard">
+                      Go to Patient Dashboard <ArrowRight className="size-4" />
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button asChild size="lg" className="leaf-pill bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
+                    <Link to="/auth" search={{ redirect: "/book" }}>
+                      Sign In to Patient Portal <ArrowRight className="size-4" />
+                    </Link>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

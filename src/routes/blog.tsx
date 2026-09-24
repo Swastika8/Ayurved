@@ -114,11 +114,14 @@ export function BlogPage() {
               </Badge>
             </div>
 
-            <h2
-              onClick={() => setActiveArticle(featuredStory)}
-              className="font-display text-3xl sm:text-5xl font-bold text-white hover:text-[#e6ca65] transition-colors cursor-pointer leading-[1.15] drop-shadow-md"
-            >
-              {featuredStory.title}
+            <h2>
+              <button
+                type="button"
+                onClick={() => setActiveArticle(featuredStory)}
+                className="text-left font-display text-3xl sm:text-5xl font-bold text-white hover:text-[#e6ca65] transition-colors cursor-pointer leading-[1.15] drop-shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e6ca65] rounded-lg"
+              >
+                {featuredStory.title}
+              </button>
             </h2>
 
             {featuredStory.sanskritQuote && (
@@ -182,10 +185,11 @@ export function BlogPage() {
       <section className="space-y-8">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {filteredArticles.map((article) => (
-            <div
+            <button
               key={article.id}
+              type="button"
               onClick={() => setActiveArticle(article)}
-              className="group cursor-pointer rounded-[2.5rem] bg-card border border-border/80 p-8 hover:border-primary/40 transition-all duration-300 shadow-soft hover:shadow-lift flex flex-col justify-between space-y-6"
+              className="text-left w-full group cursor-pointer rounded-[2.5rem] bg-card border border-border/80 p-8 hover:border-primary/40 transition-all duration-300 shadow-soft hover:shadow-lift flex flex-col justify-between space-y-6 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -220,7 +224,7 @@ export function BlogPage() {
                   Read Article <ArrowRight className="size-3.5" />
                 </span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
 

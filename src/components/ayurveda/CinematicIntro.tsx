@@ -90,8 +90,28 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
     }
   };
 
+  const isCompletingRef = useRef(false);
+  const endedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const finishTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clean up timers on unmount
+  useEffect(() => {
+    return () => {
+      if (endedTimerRef.current) clearTimeout(endedTimerRef.current);
+      if (finishTimerRef.current) clearTimeout(finishTimerRef.current);
+    };
+  }, []);
+
   const handleFinish = useCallback(() => {
-    if (isFadingOut) return;
+    if (isCompletingRef.current) return;
+    isCompletingRef.current = true;
+
+    // Cancel pending timer scheduled by onEnded if active
+    if (endedTimerRef.current) {
+      clearTimeout(endedTimerRef.current);
+      endedTimerRef.current = null;
+    }
+
     setIsFadingOut(true);
     stopVedicDrone();
     try {
@@ -99,11 +119,11 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
     } catch {
       // ignore
     }
-    setTimeout(() => {
+    finishTimerRef.current = setTimeout(() => {
       setIsVisible(false);
       onComplete?.();
     }, 850);
-  }, [isFadingOut, onComplete]);
+  }, [onComplete]);
 
   // Check session storage on mount
   useEffect(() => {
@@ -151,7 +171,11 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
   };
 
   const handleVideoEnded = () => {
-    setTimeout(() => {
+    if (isCompletingRef.current) return;
+    if (endedTimerRef.current) {
+      clearTimeout(endedTimerRef.current);
+    }
+    endedTimerRef.current = setTimeout(() => {
       handleFinish();
     }, 800);
   };
