@@ -12,6 +12,7 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
   const [isVisible, setIsVisible] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isZoomingOut, setIsZoomingOut] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -24,16 +25,24 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
     }
   }, [forceShow]);
 
-  // Attempt autoplay
+  // Attempt autoplay and trigger camera zoom-out
   useEffect(() => {
-    if (isVisible && videoRef.current) {
-      videoRef.current.currentTime = 0;
-      const playPromise = videoRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.warn("Autoplay deferred or muted by browser policy:", err);
-        });
+    if (isVisible) {
+      const zoomTimer = setTimeout(() => {
+        setIsZoomingOut(true);
+      }, 150);
+
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.warn("Autoplay deferred or muted by browser policy:", err);
+          });
+        }
       }
+
+      return () => clearTimeout(zoomTimer);
     }
   }, [isVisible]);
 
@@ -67,15 +76,18 @@ export function CinematicIntro({ onComplete, forceShow = false }: CinematicIntro
         isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
-      {/* Absolute Full-Screen Video filling 100vw x 100vh with no container / rounded border */}
+      {/* Absolute Full-Screen Video that smoothly zooms out to bring the entire frame into majestic view */}
       <video
         ref={videoRef}
         src="/media/intro.mp4"
         autoPlay
         muted
         playsInline
+        onPlay={() => setIsZoomingOut(true)}
         onEnded={handleFinish}
-        className="w-full h-full object-cover object-center scale-[1.01]"
+        className={`w-full h-full object-cover object-center transform transition-transform duration-[8500ms] ease-out ${
+          isZoomingOut ? "scale-100" : "scale-[1.32]"
+        }`}
       />
 
       {/* Subtle cinematic vignette overlay to blend edges with brand tones */}

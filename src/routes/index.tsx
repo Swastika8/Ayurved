@@ -94,25 +94,25 @@ export function HomePage() {
         </div>
       )}
 
-      {/* IMMERSIVE ENVIRONMENTAL HERO SECTION (NO CONTAINED IMAGE CARDS) */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden pt-8 pb-20">
-        {/* Full-width 3D atmospheric environmental video layer extending across the right & behind content */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* IMMERSIVE FULL-SCREEN ENVIRONMENTAL HERO (FULL SCREEN BACKGROUND, ZERO CORNER CROPPING) */}
+      <section className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden py-16 lg:py-24">
+        {/* Full-Screen 3D Atmospheric Video Layer Spanning ENTIRE Screen */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
           <video
             src="/media/home.mp4"
             autoPlay
             loop
             muted
             playsInline
-            className="absolute top-0 right-0 w-full lg:w-[65%] h-full object-cover object-center opacity-85 filter contrast-[1.05]"
+            className="w-full h-full object-cover object-center scale-100 filter contrast-[1.04]"
           />
-          {/* Organic atmospheric gradient blending the video seamlessly into warm ivory/cream background */}
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 lg:via-background/80 to-transparent" />
+          {/* Subtle Ayurvedic Scrim: Ensures typography is crystal-clear while video glows across entire viewport */}
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/40 lg:via-background/75" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
           <div className="absolute top-1/4 left-1/3 size-96 rounded-full bg-accent/10 blur-3xl" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full py-12 lg:py-16">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full">
           <div className="max-w-2xl lg:max-w-3xl space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-secondary/80 backdrop-blur-md px-4 py-1.5 text-xs text-primary font-medium shadow-xs">
               <Leaf className="size-3.5 text-accent" />
@@ -137,29 +137,32 @@ export function HomePage() {
               Experience classical hospital healthcare: authentic 5-phase Panchakarma bio-purification, in-house pharmacopoeia prepared in bronze urulis, and zero-paper digital case records.
             </p>
 
-            {/* Upfront Interactive Symptom & Disease Lookup Bar */}
-            <div className="pt-2 max-w-xl">
-              <span className="text-xs font-semibold text-primary uppercase tracking-wider block mb-2 flex items-center gap-1.5">
-                <Sparkles className="size-3.5 text-accent" /> Instant Symptom & Ayurvedic Protocol Search:
-              </span>
-              <SymptomDiseaseLookup />
-            </div>
-
-            {/* Action Buttons */}
-            <div className="pt-3 flex flex-wrap items-center gap-4">
-              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2 bg-primary hover:bg-primary/90">
+            {/* Clear Public CTAs */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                 <Link to="/book">
                   <Calendar className="size-4 text-accent" /> Book a Consultation
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-primary/30 bg-background/60 backdrop-blur-sm hover:bg-background">
+              <Button asChild variant="outline" size="lg" className="rounded-full px-7 border-primary/30 bg-background/70 backdrop-blur-sm hover:bg-background">
                 <Link to="/panchakarma">Explore Panchakarma Therapies</Link>
               </Button>
+            </div>
+
+            {/* Subtle guest link to Patient Portal */}
+            <div className="pt-1">
+              <Link
+                to="/auth"
+                className="text-xs text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1 font-medium"
+              >
+                <span>Already an admitted patient or follow-up visitor?</span>
+                <span className="text-primary underline underline-offset-4">Sign In to Digital Health Portal →</span>
+              </Link>
             </div>
           </div>
 
           {/* Floating Organic Quick-Stats Ribbon */}
-          <div className="mt-20 leaf-card bg-card/85 backdrop-blur-md p-6 sm:p-8 border-primary/20 shadow-lift">
+          <div className="mt-14 leaf-card bg-card/85 backdrop-blur-md p-6 sm:p-8 border-primary/20 shadow-lift">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-border">
               <div className="space-y-1">
                 <p className="font-display text-3xl sm:text-4xl font-bold text-primary">40+ Years</p>
@@ -186,6 +189,28 @@ export function HomePage() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* DEDICATED SYMPTOM & DISEASE PROTOCOL DISCOVERY SECTION (BELOW THE FOLD) */}
+      <section className="py-16 lg:py-20 border-t border-border/60 bg-gradient-to-b from-background via-secondary/25 to-background">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-8 space-y-3">
+            <Badge variant="outline" className="rounded-full border-primary/30 text-primary px-3.5 py-1 text-xs bg-secondary/70 backdrop-blur-sm">
+              <Sparkles className="size-3.5 text-accent mr-1.5" /> Classical Ayurvedic Triage & Pharmacopoeia
+            </Badge>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
+              Explore Treatments by <span className="font-serif italic text-primary">Symptom & Dosha</span>
+            </h2>
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              Search common ailments or constitutional imbalances to discover Sushruta & Charaka Samhita herbal protocols, Panchakarma therapies, and dietary regimens.
+            </p>
+          </div>
+
+          {/* Interactive Lookup Box with generous spacing */}
+          <div className="leaf-card p-6 sm:p-8 bg-card/90 backdrop-blur-md shadow-lift border-primary/20">
+            <SymptomDiseaseLookup />
           </div>
         </div>
       </section>

@@ -73,7 +73,7 @@ export function PanchakarmaPage() {
           </p>
         </div>
 
-        {/* 2. MASSIVE CENTRAL PANORAMIC / MANDALA STAGE (75vh - 85vh) */}
+        {/* 2. MASSIVE CENTRAL FULL-WIDTH MANDALA STAGE (FULL SCREEN BACKGROUND) */}
         <div className="mt-14 relative w-full min-h-[75vh] lg:min-h-[85vh] flex items-center justify-center overflow-hidden">
           {/* Subtle Rotating Sacred Geometry Rings */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-40">
@@ -81,16 +81,16 @@ export function PanchakarmaPage() {
             <div className="absolute w-[400px] sm:w-[550px] lg:w-[750px] h-[400px] sm:h-[550px] lg:h-[750px] rounded-full border border-dashed border-accent/25 animate-[spin_80s_linear_infinite_reverse]" />
           </div>
 
-          {/* Central Visual Layer: Uncontained, Bleeding smoothly with radial fade masks */}
-          <div className="relative w-full max-w-6xl h-[70vh] lg:h-[82vh] flex items-center justify-center">
-            <div className="relative w-full h-full [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_96%)] flex items-center justify-center">
-              <img
-                src="/media/panchakarma-main.jpg"
-                alt="Panchakarma Sacred Biological Diagram"
-                className="w-full h-full object-cover object-center filter saturate-[1.08] contrast-[1.03]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50 pointer-events-none" />
-            </div>
+          {/* Full-Screen Background Image Layer */}
+          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+            <img
+              src="/media/panchakarma-main.jpg"
+              alt="Panchakarma Sacred Biological Diagram"
+              className="w-full h-full object-cover object-center filter saturate-[1.05] contrast-[1.02] opacity-75 dark:opacity-50"
+            />
+            <div className="absolute inset-0 bg-radial from-transparent via-background/60 to-background" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
+          </div>
 
             {/* Interactive Anatomical Hotspots Overlaid on the Mandala */}
             <div className="absolute inset-0 max-w-5xl mx-auto pointer-events-none">
@@ -176,7 +176,6 @@ export function PanchakarmaPage() {
                   </div>
                   <div className="absolute left-1/2 -translate-x-1/2 top-14 bg-background/95 border border-rose-500/30 text-foreground text-xs px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-90 group-hover:opacity-100 transition-opacity">
                     <strong className="text-rose-600 font-semibold">Raktamokshana:</strong> Leech Therapy
-                  </div>
                 </div>
               </div>
             </div>

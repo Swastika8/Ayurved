@@ -76,57 +76,6 @@ function ThemeToggle() {
   );
 }
 
-function RoleSimulationSwitcher() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="hidden md:inline-flex items-center gap-1.5 rounded-full border-primary/25 bg-secondary/40 text-xs px-2.5 py-1 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-200"
-        >
-          <Layers className="size-3.5 text-accent" />
-          <span className="font-medium">Role Views</span>
-          <ChevronDown className="size-3 opacity-60" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 bg-card border-border shadow-lift">
-        <DropdownMenuLabel className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider px-2 py-1">
-          Multi-Role Simulation UI
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
-          <Link to="/dashboard" className="flex items-center gap-2 px-2 py-1.5 text-xs">
-            <User className="size-3.5 text-primary" />
-            <div>
-              <p className="font-semibold text-foreground">Patient Portal</p>
-              <p className="text-[10px] text-muted-foreground">Prescriptions, visits & intake</p>
-            </div>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
-          <Link to="/doctor" className="flex items-center gap-2 px-2 py-1.5 text-xs">
-            <Stethoscope className="size-3.5 text-accent" />
-            <div>
-              <p className="font-semibold text-foreground">Doctor / Vaidya Portal</p>
-              <p className="text-[10px] text-muted-foreground">Digital case sheet & Nadi notes</p>
-            </div>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
-          <Link to="/admin" className="flex items-center gap-2 px-2 py-1.5 text-xs">
-            <ShieldCheck className="size-3.5 text-destructive" />
-            <div>
-              <p className="font-semibold text-foreground">Hospital Admin</p>
-              <p className="text-[10px] text-muted-foreground">Staff, therapies & master content</p>
-            </div>
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-
 function NotificationBell({ userId }: { userId?: string | undefined }) {
   const { data: notifications, refetch } = useUserNotifications(userId || "");
   const unreadCount = 2; // Always show simulated healthcare reminders
@@ -196,11 +145,11 @@ function NotificationBell({ userId }: { userId?: string | undefined }) {
 }
 
 export function SiteHeader() {
-  const { user, isAdmin, isDoctor } = useAuth();
+  const { user, isAdmin, isDoctor, signOut } = useAuth();
   const { hospital } = useSiteContent();
 
   const accountLink = isAdmin ? "/admin" : isDoctor ? "/doctor" : "/dashboard";
-  const accountLabel = isAdmin ? "Admin Portal" : isDoctor ? "Doctor Portal" : "My Account";
+  const accountRoleLabel = isAdmin ? "Administrator" : isDoctor ? "Chief Vaidya" : "Registered Patient";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/90 backdrop-blur-md transition-all">
@@ -236,7 +185,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-0.5">
+        <nav className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
               key={item.to}
@@ -250,33 +199,90 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Actions & Role Switcher */}
+        {/* Actions & Authenticated Controls */}
         <div className="flex items-center gap-2">
-          {/* Multi-role preview switcher */}
-          <RoleSimulationSwitcher />
-
           {/* Theme switcher */}
           <ThemeToggle />
 
-          {/* Notification bell */}
-          <NotificationBell userId={user?.id} />
-
-          {/* User Sign In / Account portal */}
+          {/* If authenticated: Show Care Notifications & User Menu */}
           {user ? (
-            <Button asChild size="sm" variant="secondary" className="gap-1.5 rounded-full text-xs shadow-xs">
-              <Link to={accountLink}>
-                {isAdmin ? (
-                  <ShieldCheck className="size-3.5 text-destructive" />
-                ) : isDoctor ? (
-                  <Stethoscope className="size-3.5 text-primary" />
-                ) : (
-                  <User className="size-3.5" />
-                )}
-                <span className="hidden sm:inline">{accountLabel}</span>
-              </Link>
-            </Button>
+            <>
+              {/* Notification bell for active patient/doctor */}
+              <NotificationBell userId={user.id} />
+
+              {/* Logged in User Menu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="gap-2 rounded-full border-primary/25 bg-secondary/40 text-xs px-3 py-1.5 shadow-xs"
+                  >
+                    <span className="grid size-5 place-items-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold">
+                      {user.email?.charAt(0).toUpperCase() || "U"}
+                    </span>
+                    <span className="hidden sm:inline font-medium text-foreground">
+                      {user.email?.split("@")[0] || "Account"}
+                    </span>
+                    <Badge variant="secondary" className="hidden md:inline-flex text-[9px] px-1.5 py-0 bg-primary/10 text-primary">
+                      {accountRoleLabel}
+                    </Badge>
+                    <ChevronDown className="size-3 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-60 rounded-2xl p-2 bg-card border-border shadow-lift">
+                  <DropdownMenuLabel className="px-2 py-1.5">
+                    <p className="text-xs font-semibold text-foreground truncate">{user.email}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">{accountRoleLabel}</p>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
+                    <Link to={accountLink} className="flex items-center gap-2 px-2 py-1.5 text-xs">
+                      {isAdmin ? (
+                        <ShieldCheck className="size-3.5 text-destructive" />
+                      ) : isDoctor ? (
+                        <Stethoscope className="size-3.5 text-accent" />
+                      ) : (
+                        <User className="size-3.5 text-primary" />
+                      )}
+                      <div>
+                        <p className="font-semibold text-foreground">My Portal Dashboard</p>
+                        <p className="text-[10px] text-muted-foreground">Clinical records & appointments</p>
+                      </div>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuLabel className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider px-2 py-1">
+                    Simulate Role
+                  </DropdownMenuLabel>
+                  <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
+                    <Link to="/dashboard" className="flex items-center gap-2 px-2 py-1 text-xs">
+                      <User className="size-3 text-primary" /> Patient Portal
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
+                    <Link to="/doctor" className="flex items-center gap-2 px-2 py-1 text-xs">
+                      <Stethoscope className="size-3 text-accent" /> Vaidya OPD
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-xl cursor-pointer">
+                    <Link to="/admin" className="flex items-center gap-2 px-2 py-1 text-xs">
+                      <ShieldCheck className="size-3 text-destructive" /> Hospital Admin
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => signOut()}
+                    className="rounded-xl cursor-pointer text-destructive focus:text-destructive flex items-center gap-2 px-2 py-1.5 text-xs"
+                  >
+                    <span>Sign Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
-            <Button asChild size="sm" variant="ghost" className="hidden sm:inline-flex rounded-full text-xs">
+            /* Visitor / Guest CTA: Sign In link */
+            <Button asChild size="sm" variant="ghost" className="rounded-full text-xs px-3 hover:bg-secondary">
               <Link to="/auth">Sign In</Link>
             </Button>
           )}
@@ -295,7 +301,7 @@ export function SiteHeader() {
           {/* Mobile Navigation Drawer */}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="xl:hidden rounded-full size-9" aria-label="Open menu">
+              <Button variant="ghost" size="icon" className="lg:hidden rounded-full size-9" aria-label="Open menu">
                 <Menu className="size-5" />
               </Button>
             </SheetTrigger>
@@ -308,31 +314,31 @@ export function SiteHeader() {
               </div>
 
               <div className="space-y-4">
-                <div className="p-3 rounded-2xl bg-secondary/50 border border-border">
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground block mb-2">
-                    Quick Role Switcher
-                  </span>
-                  <div className="grid grid-cols-3 gap-1.5">
+                {user ? (
+                  <div className="p-3 rounded-2xl bg-secondary/50 border border-border space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-foreground truncate">{user.email}</span>
+                      <Badge variant="secondary" className="text-[10px] bg-primary/10 text-primary">
+                        {accountRoleLabel}
+                      </Badge>
+                    </div>
                     <Link
-                      to="/dashboard"
-                      className="text-center p-2 rounded-xl bg-card text-[11px] font-medium hover:bg-primary hover:text-primary-foreground border border-border transition-colors"
+                      to={accountLink}
+                      className="block text-center p-2 rounded-xl bg-primary text-primary-foreground text-xs font-medium"
                     >
-                      Patient
-                    </Link>
-                    <Link
-                      to="/doctor"
-                      className="text-center p-2 rounded-xl bg-card text-[11px] font-medium hover:bg-primary hover:text-primary-foreground border border-border transition-colors"
-                    >
-                      Doctor
-                    </Link>
-                    <Link
-                      to="/admin"
-                      className="text-center p-2 rounded-xl bg-card text-[11px] font-medium hover:bg-primary hover:text-primary-foreground border border-border transition-colors"
-                    >
-                      Admin
+                      Enter {accountRoleLabel} Portal
                     </Link>
                   </div>
-                </div>
+                ) : (
+                  <div className="p-3.5 rounded-2xl bg-secondary/40 border border-primary/15 text-xs space-y-2">
+                    <p className="font-serif italic text-primary font-medium">
+                      “Swasthyasya Swasthya Rakshanam”
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      Classical Ashtanga Ayurveda Sanctuary with NABH Green Leaf hospital accreditation.
+                    </p>
+                  </div>
+                )}
 
                 <nav className="flex flex-col gap-1 text-sm">
                   {navItems.map((item) => (
@@ -355,8 +361,17 @@ export function SiteHeader() {
                     to={user ? accountLink : "/auth"}
                     className="rounded-xl px-4 py-2 font-medium text-foreground flex items-center gap-2 hover:bg-secondary transition-colors"
                   >
-                    <User className="size-4" /> {user ? accountLabel : "Sign in / Register"}
+                    <User className="size-4" /> {user ? "My Health Portal" : "Sign In / Register"}
                   </Link>
+                  {user && (
+                    <button
+                      type="button"
+                      onClick={() => signOut()}
+                      className="text-left rounded-xl px-4 py-2 font-medium text-destructive hover:bg-destructive/10 transition-colors text-sm"
+                    >
+                      Sign Out
+                    </button>
+                  )}
                 </nav>
               </div>
             </SheetContent>

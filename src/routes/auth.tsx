@@ -146,44 +146,32 @@ function AuthPage() {
 
   return (
     <PageShell>
-      <div className="mx-auto min-h-[calc(100vh-14rem)] max-w-5xl px-4 py-12 flex items-center">
-        <div className="w-full grid gap-10 md:grid-cols-12 items-center">
-          {/* Left Visual Column with Authentic Sanctuary Photo */}
-          <div className="hidden md:flex md:col-span-5 flex-col justify-between rounded-[2.5rem] border border-primary/20 p-8 relative overflow-hidden aspect-[3/4] bg-card shadow-soft">
-            <img
-              src="/media/login-page.jpg"
-              alt="Aarogya Sanctuary"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20 pointer-events-none" />
-            <div className="relative z-10 flex items-center gap-2 text-white font-medium text-xs">
-              <Leaf className="size-4 text-accent" />
-              <span>Aarogya Classical Hospital Portal</span>
+      <div className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4 overflow-hidden">
+        {/* Full-Screen Atmospheric Background covering the entire screen */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/media/login-page.jpg"
+            alt="Aarogya Sanctuary"
+            className="w-full h-full object-cover object-center filter brightness-[0.82] contrast-[1.06]"
+          />
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-black/40 to-background/60" />
+        </div>
+
+        {/* Centered Glassmorphic Form Card */}
+        <div className="relative z-10 w-full max-w-md space-y-6">
+          <div className="text-center">
+            <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lift mb-3">
+              <Leaf className="size-6 text-accent" />
             </div>
-            <div className="relative z-10 space-y-2 text-white">
-              <p className="font-serif italic text-xl text-primary-foreground/95 leading-snug">
-                “Nourish the mind, balance the doshas, and let nature heal.”
-              </p>
-              <p className="text-xs text-white/70">
-                Access your paperless Ayurvedic health chart, daily routine, and prescriptions.
-              </p>
-            </div>
+            <h1 className="font-display text-3xl font-bold text-white tracking-tight">Aarogya Ayurveda Portal</h1>
+            <p className="mt-1 text-xs text-white/80">
+              Classical holistic healing, paperless records, and personal consultations.
+            </p>
           </div>
 
-          {/* Right Form Column */}
-          <div className="md:col-span-7 w-full space-y-6 max-w-md mx-auto">
-            <div className="text-center md:text-left">
-              <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm mb-3">
-                <Leaf className="size-6" />
-              </div>
-              <h1 className="font-display text-3xl font-bold text-foreground">Aarogya Ayurveda Portal</h1>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Classical holistic healing, paperless records, and personal consultations.
-              </p>
-            </div>
-
-            <Card className="border-border shadow-[var(--shadow-lift)] leaf-card">
-              <CardHeader className="pb-4">
+          <Card className="border-white/15 bg-card/90 dark:bg-card/85 backdrop-blur-xl shadow-lift leaf-card">
+            <CardHeader className="pb-4">
                 <Tabs
                   value={activeTab}
                   onValueChange={(val) => setActiveTab(val as "signin" | "signup")}
@@ -351,7 +339,6 @@ function AuthPage() {
           </div>
         </div>
       </div>
-    </div>
-  </PageShell>
+    </PageShell>
   );
 }

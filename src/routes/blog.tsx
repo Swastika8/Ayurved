@@ -88,83 +88,72 @@ export function BlogPage() {
 
       {/* 2. FEATURED EDITORIAL STORY: UNCONTAINED STILL-LIFE VISUAL (No Small Card Box!) */}
       {featuredStory && !searchQuery && selectedCategory === "All" && (
-        <section className="mt-8 mb-20 relative overflow-hidden py-10">
-          {/* Ambient Environmental Gradients */}
-          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[550px] h-[550px] rounded-full bg-accent/15 blur-[140px] pointer-events-none -z-10" />
-          <div className="absolute top-1/3 left-0 w-[450px] h-[450px] rounded-full bg-primary/10 blur-[130px] pointer-events-none -z-10" />
+        <section className="relative -mt-6 sm:-mt-10 -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden min-h-[65vh] flex items-center border-b border-border/70 py-16 px-6 sm:px-12 mb-16">
+          {/* Full-Screen Section Background */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/media/blog-animation.jpg"
+              alt="Ayurvedic Physician Study Desk and Palm Leaf Manuscript"
+              className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.88] contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+          </div>
 
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* Left: Generous Editorial Content with whitespace */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge className="bg-primary/10 text-primary border-primary/20 text-xs px-3 py-1">
-                  {featuredStory.category}
-                </Badge>
-                <span className="text-xs text-muted-foreground flex items-center gap-1 font-mono">
-                  <Clock className="size-3 text-accent" /> {featuredStory.readTime}
-                </span>
-                <span className="text-xs text-muted-foreground font-mono">• {featuredStory.date}</span>
-                <Badge variant="outline" className="border-accent/40 text-accent font-medium text-[10px]">
-                  Featured Monograph
-                </Badge>
-              </div>
-
-              <h2
-                onClick={() => setActiveArticle(featuredStory)}
-                className="font-display text-3xl sm:text-5xl font-bold text-foreground hover:text-primary transition-colors cursor-pointer leading-[1.15]"
-              >
-                {featuredStory.title}
-              </h2>
-
-              {featuredStory.sanskritQuote && (
-                <p className="font-serif italic text-base sm:text-lg text-primary/85 leading-relaxed">
-                  “{featuredStory.sanskritQuote}”
-                </p>
-              )}
-
-              <p className="text-base text-muted-foreground leading-relaxed">
-                {featuredStory.snippet}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <span className="text-xs font-semibold text-foreground/80">Key Botanical Formulations:</span>
-                {featuredStory.keyHerbs?.map((herb) => (
-                  <span
-                    key={herb}
-                    className="text-xs bg-secondary/80 text-foreground px-3 py-1 rounded-full border border-border/80 font-medium"
-                  >
-                    {herb}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-border/70">
-                <div className="flex items-center gap-2 text-xs font-medium text-foreground">
-                  <UserCheck className="size-4 text-accent" />
-                  <span>{featuredStory.author}</span>
-                </div>
-                <Button
-                  onClick={() => setActiveArticle(featuredStory)}
-                  className="rounded-full px-6 shadow-lift text-xs gap-1.5"
-                >
-                  Read Full Publication <ArrowRight className="size-3.5 ml-1" />
-                </Button>
-              </div>
+          <div className="relative z-10 max-w-2xl space-y-6 text-left">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className="bg-primary/20 text-primary border-primary/30 text-xs px-3 py-1 backdrop-blur-md">
+                {featuredStory.category}
+              </Badge>
+              <span className="text-xs text-muted-foreground flex items-center gap-1 font-mono">
+                <Clock className="size-3 text-accent" /> {featuredStory.readTime}
+              </span>
+              <span className="text-xs text-muted-foreground font-mono">• {featuredStory.date}</span>
+              <Badge variant="outline" className="border-accent/40 text-accent font-medium text-[10px] bg-background/80 backdrop-blur-sm">
+                Featured Monograph
+              </Badge>
             </div>
 
-            {/* Right: Uncontained Editorial Still-Life Layer (Bleeding off-screen, no card box) */}
-            <div className="lg:col-span-6 relative flex items-center justify-center">
-              <div className="relative w-full max-w-[540px] aspect-[4/3] flex items-center justify-center animate-levitate">
-                {/* Visual Layer with Smooth Radial Masks */}
-                <div className="relative w-full h-full rounded-[3.5rem] overflow-hidden [mask-image:radial-gradient(ellipse_at_center,black_65%,transparent_98%)] shadow-2xl">
-                  <img
-                    src="/media/blog-animation.jpg"
-                    alt="Ayurvedic Physician Study Desk and Palm Leaf Manuscript"
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent pointer-events-none" />
-                </div>
+            <h2
+              onClick={() => setActiveArticle(featuredStory)}
+              className="font-display text-3xl sm:text-5xl font-bold text-foreground hover:text-primary transition-colors cursor-pointer leading-[1.15]"
+            >
+              {featuredStory.title}
+            </h2>
+
+            {featuredStory.sanskritQuote && (
+              <p className="font-serif italic text-base sm:text-lg text-primary/90 leading-relaxed">
+                “{featuredStory.sanskritQuote}”
+              </p>
+            )}
+
+            <p className="text-base text-muted-foreground leading-relaxed">
+              {featuredStory.snippet}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="text-xs font-semibold text-foreground/80">Key Botanical Formulations:</span>
+              {featuredStory.keyHerbs?.map((herb) => (
+                <span
+                  key={herb}
+                  className="text-xs bg-secondary/80 text-foreground px-3 py-1 rounded-full border border-border/80 font-medium backdrop-blur-sm"
+                >
+                  {herb}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-border/70">
+              <div className="flex items-center gap-2 text-xs font-medium text-foreground">
+                <UserCheck className="size-4 text-accent" />
+                <span>{featuredStory.author}</span>
               </div>
+              <Button
+                onClick={() => setActiveArticle(featuredStory)}
+                className="rounded-full px-6 shadow-lift text-xs gap-1.5"
+              >
+                Read Full Publication <ArrowRight className="size-3.5 ml-1" />
+              </Button>
             </div>
           </div>
         </section>

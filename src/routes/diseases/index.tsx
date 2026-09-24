@@ -46,76 +46,53 @@ function DiseaseLibrary() {
   return (
     <PageShell>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-10 md:py-16 space-y-16">
-        {/* 3D Roganidana Pathology Stage */}
-        <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-card via-secondary/30 to-primary/5 border border-border p-6 sm:p-10 lg:p-14 shadow-soft">
-          <div className="grid lg:grid-cols-12 gap-10 items-center">
-            {/* Left Content Column (7 cols) */}
-            <div className="lg:col-span-7 space-y-4 text-left">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="outline" className="leaf-pill px-3.5 py-1 text-xs text-primary border-primary/20">
-                  <Sparkles className="size-3 mr-1 text-accent" />
-                  Roganidana & Samprapti Explorer
-                </Badge>
-                <Badge className="bg-primary/10 text-primary border-primary/20 rounded-full text-xs">
-                  Classical Pathology
-                </Badge>
-              </div>
+        {/* Full-Bleed 3D Roganidana Pathology Stage */}
+        <section className="relative -mt-6 sm:-mt-10 -mx-4 sm:-mx-6 lg:-mx-8 overflow-hidden min-h-[70vh] flex items-center border-b border-border/70 py-16 px-6 sm:px-12">
+          {/* Full Environmental 3D Asset */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/media/disease_lookup.jpg"
+              alt="3D Ayurvedic Disease and Anatomy Lookup"
+              className="w-full h-full object-cover object-right lg:object-center filter brightness-[0.88] contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/30 lg:to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40 pointer-events-none" />
+          </div>
 
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance-display leading-[1.15]">
-                Ayurvedic <span className="italic text-primary font-normal">Disease Library</span> & Roganidana
-              </h1>
-
-              <p className="font-serif italic text-lg sm:text-xl text-primary/85">
-                “Nidane Poorvaroopani Roopaanyupashayastatha, <br className="hidden sm:inline" />
-                Sampraptischaiva Vigneyo Roganam Bodhaka Gano.”
-              </p>
-              <p className="text-xs font-sans text-muted-foreground italic">
-                — The 5 Diagnostic Pillars (Pancha Nidana): Etiology, Premonitory Signs, Manifest Symptoms, Exploratory Therapy, and Pathogenesis.
-              </p>
-
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
-                Ayurveda classifies disease not as a static label, but as a living sequence of metabolic disequilibrium (*Samprapti*) beginning in the digestive tract (*Agni*) and migrating through the subtle tissue channels (*Srotas*).
-              </p>
-
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <Button asChild size="lg" className="rounded-full px-8 shadow-lift">
-                  <Link to="/book">Consult a Diagnostician</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="rounded-full px-6">
-                  <a href="#quick-lookup">Interactive Symptom Lookup</a>
-                </Button>
-              </div>
+          <div className="relative z-10 max-w-2xl space-y-4 text-left">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="leaf-pill px-3.5 py-1 text-xs text-primary border-primary/20 bg-background/80 backdrop-blur-md">
+                <Sparkles className="size-3 mr-1 text-accent" />
+                Roganidana & Samprapti Explorer
+              </Badge>
+              <Badge className="bg-primary/20 text-primary border-primary/30 rounded-full text-xs backdrop-blur-md">
+                Classical Pathology
+              </Badge>
             </div>
 
-            {/* 3D Visual Asset Column (5 cols) */}
-            <div className="lg:col-span-5 relative flex items-center justify-center">
-              <div className="relative w-full max-w-sm aspect-square rounded-[2rem] border border-primary/20 bg-secondary/30 overflow-hidden shadow-lift group">
-                <img
-                  src="/media/disease_lookup.jpg"
-                  alt="3D Ayurvedic Disease and Anatomy Lookup"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground text-balance-display leading-[1.15]">
+              Ayurvedic <span className="italic text-primary font-serif">Disease Library</span> & Roganidana
+            </h1>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+            <p className="font-serif italic text-lg sm:text-xl text-primary/90">
+              “Nidane Poorvaroopani Roopaanyupashayastatha, <br className="hidden sm:inline" />
+              Sampraptischaiva Vigneyo Roganam Bodhaka Gano.”
+            </p>
+            <p className="text-xs font-sans text-muted-foreground italic">
+              — The 5 Diagnostic Pillars (Pancha Nidana): Etiology, Premonitory Signs, Manifest Symptoms, Exploratory Therapy, and Pathogenesis.
+            </p>
 
-                {/* Floating Badges */}
-                <div className="absolute top-3.5 left-3.5 bg-card/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-border text-[11px] font-medium text-foreground flex items-center gap-1.5 shadow-sm">
-                  <Activity className="size-3 text-accent" />
-                  <span>3D Roganidana Layer</span>
-                </div>
+            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl">
+              Ayurveda classifies disease not as a static label, but as a living sequence of metabolic disequilibrium (*Samprapti*) beginning in the digestive tract (*Agni*) and migrating through the subtle tissue channels (*Srotas*).
+            </p>
 
-                <div className="absolute bottom-3.5 inset-x-3.5 bg-card/95 backdrop-blur-md p-3 rounded-2xl border border-primary/20 shadow-md">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] text-muted-foreground uppercase font-mono block">Diagnostic Model</span>
-                      <span className="text-xs font-bold text-foreground">Pancha Nidana & Srotas</span>
-                    </div>
-                    <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px]">
-                      Classical
-                    </Badge>
-                  </div>
-                </div>
-              </div>
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-8 shadow-lift">
+                <Link to="/book">Consult a Diagnostician</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-6 bg-background/80 backdrop-blur-sm">
+                <a href="#quick-lookup">Interactive Symptom Lookup</a>
+              </Button>
             </div>
           </div>
         </section>

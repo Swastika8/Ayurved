@@ -45,16 +45,20 @@ export function TreatmentsPage() {
 
   return (
     <PageShell>
-      {/* IMMERSIVE 3D LEVITATING APOTHECARY HERO (OVERSIZED UNCONTAINED LAYER BLEEDING OFF-SCREEN) */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden py-16 lg:py-24 bg-gradient-to-br from-background via-secondary/15 to-background border-b border-border">
-        {/* Oversized 3D Artwork Layer: Uncontained, extending beyond the right viewport edge */}
-        <div className="absolute top-1/2 -translate-y-1/2 -right-16 sm:-right-24 lg:-right-20 xl:-right-10 w-[520px] sm:w-[680px] lg:w-[840px] xl:w-[980px] pointer-events-none select-none z-0">
-          <div className="absolute inset-0 bg-radial from-accent/15 via-primary/10 to-transparent blur-3xl rounded-full" />
-          <img
-            src="/media/treatments.png"
-            alt="3D Levitating Ayurvedic Apothecary and Medicinal Herbs"
-            className="w-full h-auto object-contain filter drop-shadow-[0_30px_60px_rgba(26,60,44,0.22)] animate-levitate"
+      {/* IMMERSIVE FULL-SCREEN ATMOSPHERIC APOTHECARY HERO */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden py-16 lg:py-24 border-b border-border">
+        {/* Full-Screen Environmental Background Covering Entire Viewport */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+          <video
+            src="/media/treatments.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover object-center filter contrast-[1.04]"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/40 lg:via-background/75" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
         </div>
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 w-full">
