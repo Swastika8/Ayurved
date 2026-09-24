@@ -104,6 +104,7 @@ export function HomePage() {
             loop
             muted
             playsInline
+            preload="auto"
             className="w-full h-full object-cover object-center scale-100 filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
           />
           {/* Transparent Dark Scrim: ZERO whitish milky fog, letting the lush greens & rich golds shine */}

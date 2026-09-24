@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -220,7 +220,19 @@ function BookAppointmentPage() {
     }));
   }, [selectedDate, effectiveAvailability, selectedDoctor, bookedSlots]);
 
+  // Guard against unauthenticated visitors accessing gated booking steps
+  useEffect(() => {
+    if (!user && step !== "doctor") {
+      setStep("doctor");
+    }
+  }, [user, step]);
+
   const handleSelectDoctor = (doctor: Doctor) => {
+    if (!user) {
+      toast.info("Please sign in or create an account to book an appointment with our Vaidyas.");
+      navigate({ to: "/auth", search: { redirect: "/book" } });
+      return;
+    }
     setSelectedDoctor(doctor);
     setSelectedDate("");
     setSelectedSlot("");
@@ -228,6 +240,11 @@ function BookAppointmentPage() {
   };
 
   const handleProceedToDetails = () => {
+    if (!user) {
+      toast.info("Please sign in to proceed with your consultation booking.");
+      navigate({ to: "/auth", search: { redirect: "/book" } });
+      return;
+    }
     if (!selectedDate || !selectedSlot) {
       toast.error("Please choose a consultation date and time slot.");
       return;
@@ -236,6 +253,11 @@ function BookAppointmentPage() {
   };
 
   const handleProceedToPayment = () => {
+    if (!user) {
+      toast.info("Please sign in to proceed to checkout and payment.");
+      navigate({ to: "/auth", search: { redirect: "/book" } });
+      return;
+    }
     if (!patientName.trim()) {
       toast.error("Please enter patient name.");
       return;
@@ -244,6 +266,11 @@ function BookAppointmentPage() {
   };
 
   const handleConfirmAndPay = async () => {
+    if (!user) {
+      toast.error("Authentication required. Please sign in to book your appointment and process payment.");
+      navigate({ to: "/auth", search: { redirect: "/book" } });
+      return;
+    }
     if (!selectedDoctor || !selectedDate || !selectedSlot) return;
 
     setIsSubmitting(true);
@@ -252,54 +279,48 @@ function BookAppointmentPage() {
       const receiptNum = `RCP-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
       let appointmentId = `appt-${Date.now()}`;
 
-      // 1. Try to record appointment in Supabase if logged in
-      if (user) {
-        try {
-          const { data: appointmentData, error: apptError } = await supabase
-            .from("appointments")
-            .insert({
-              patient_id: user.id,
-              doctor_id: selectedDoctor.id,
-              appointment_date: selectedDate,
-              start_time: selectedSlot + ":00",
-              reason: reason || "General Ayurvedic Consultation",
-              status: "confirmed",
-              amount: fee,
-            })
-            .select()
-            .single();
+      // 1. Record appointment in database
+      const { data: appointmentData, error: apptError } = await supabase
+        .from("appointments")
+        .insert({
+          patient_id: user.id,
+          doctor_id: selectedDoctor.id,
+          appointment_date: selectedDate,
+          start_time: selectedSlot + ":00",
+          reason: reason || "General Ayurvedic Consultation",
+          status: "confirmed",
+          amount: fee,
+        })
+        .select()
+        .single();
 
-          if (!apptError && appointmentData) {
-            appointmentId = appointmentData.id;
+      if (!apptError && appointmentData) {
+        appointmentId = appointmentData.id;
 
-            // Record simulated payment
-            await supabase.from("payments").insert({
-              appointment_id: appointmentData.id,
-              patient_id: user.id,
-              amount: fee,
-              currency: "INR",
-              status: "completed",
-              provider: `simulated_${paymentMethod}`,
-              provider_reference: `TXN-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
-              receipt_number: receiptNum,
-              paid_at: new Date().toISOString(),
-            });
+        // Record payment
+        await supabase.from("payments").insert({
+          appointment_id: appointmentData.id,
+          patient_id: user.id,
+          amount: fee,
+          currency: "INR",
+          status: "completed",
+          provider: `simulated_${paymentMethod}`,
+          provider_reference: `TXN-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+          receipt_number: receiptNum,
+          paid_at: new Date().toISOString(),
+        });
 
-            // In-app notification
-            await createInAppNotification({
-              userId: user.id,
-              appointmentId: appointmentData.id,
-              title: `Consultation Confirmed: ${selectedDoctor.full_name}`,
-              body: `Your appointment is scheduled for ${selectedDate} at ${selectedSlot}. Please arrive 15 minutes before your slot.`,
-            });
+        // In-app notification
+        await createInAppNotification({
+          userId: user.id,
+          appointmentId: appointmentData.id,
+          title: `Consultation Confirmed: ${selectedDoctor.full_name}`,
+          body: `Your appointment is scheduled for ${selectedDate} at ${selectedSlot}. Please arrive 15 minutes before your slot.`,
+        });
 
-            // Update phone on profile if given
-            if (patientPhone) {
-              await supabase.from("profiles").update({ phone: patientPhone }).eq("id", user.id);
-            }
-          }
-        } catch {
-          // Graceful simulated flow continues
+        // Update phone on profile if given
+        if (patientPhone) {
+          await supabase.from("profiles").update({ phone: patientPhone }).eq("id", user.id);
         }
       }
 
@@ -432,6 +453,42 @@ function BookAppointmentPage() {
               </Badge>
             </div>
 
+            {/* Authentication Notice Banner for Guests */}
+            {!user ? (
+              <div className="leaf-card p-6 bg-gradient-to-r from-primary/10 via-accent/10 to-transparent border border-primary/25 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="size-4 text-primary" />
+                    <h3 className="font-semibold text-foreground text-sm">
+                      Patient Sign In Required to Reserve Slots & Make Payments
+                    </h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground max-w-xl">
+                    Physician credentials, specialties, and hospital information are openly accessible. To schedule your consultation, access real-time clinical slots, and proceed to payment, please log in or create a patient account.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Button asChild size="sm" className="rounded-full text-xs font-semibold px-4">
+                    <Link to="/auth" search={{ redirect: "/book" }}>
+                      Sign In to Book Consultation
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="leaf-card p-4 bg-primary/5 border border-primary/20 rounded-2xl flex items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="size-2 rounded-full bg-primary animate-pulse" />
+                  <span className="text-foreground font-medium">
+                    Signed in as <span className="font-semibold text-primary">{user.email}</span>
+                  </span>
+                </div>
+                <Badge variant="outline" className="text-[10px] text-primary border-primary/30">
+                  Verified Patient Access
+                </Badge>
+              </div>
+            )}
+
             {loadingDoctors && (
               <div className="p-8 text-center text-sm text-muted-foreground">
                 Connecting to clinical roster…
@@ -466,7 +523,7 @@ function BookAppointmentPage() {
                       {doc.years_experience} yrs clinical exp.
                     </span>
                     <Button size="sm" className="leaf-pill bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground text-xs gap-1.5 transition-colors">
-                      Select Slot <ArrowRight className="size-3" />
+                      {user ? "Select Slot" : "Sign In to Book"} <ArrowRight className="size-3" />
                     </Button>
                   </div>
                 </div>

@@ -55,6 +55,7 @@ export function TreatmentsPage() {
             loop
             muted
             playsInline
+            preload="auto"
             className="w-full h-full object-cover object-center filter saturate-[1.12] contrast-[1.08] brightness-[0.96]"
           />
           {/* Transparent Dark Scrim: ZERO whitish milky fog, letting the amber medicated oils & bronze glow */}
