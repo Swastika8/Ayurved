@@ -1,0 +1,8 @@
+.sites-runtime/
+.sites-checkout/
+node_modules/
+*.tar.gz
+*.log
+__pycache__/
+
+/aranya-ayurveda/
